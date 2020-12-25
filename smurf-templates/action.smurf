@@ -1,7 +1,7 @@
 import SmurfResponse, { SmurfAction } from '../../core/response';
 
 @SmurfAction({
-  action: '/',
+  action: '/custom-end-point',
 })
 export class SmurfApi extends SmurfResponse {
 

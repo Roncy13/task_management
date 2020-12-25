@@ -1,7 +1,7 @@
 import SmurfResponse, { SmurfAction } from '../../core/response';
 
 @SmurfAction({
-  action: '/',
+  action: '/sign-up',
 })
 export class SignUpApi extends SmurfResponse {
 

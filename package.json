@@ -14,7 +14,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "typeorm": "node --require ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
     "dev": "./node_modules/.bin/tsc-watch --onSuccess \"npm run start\"",
-    "smurf": "plop --plopfile src/core/generator.ts "
+    "smurf": "plop --plopfile src/core/generator/index.ts"
   },
   "author": "",
   "license": "ISC",
