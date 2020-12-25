@@ -1,4 +1,4 @@
-import { StrTitleCase } from './../helpers/strings';
+import { DashCase, StrTitleCase } from './../helpers/strings';
 
 export function ApiChangeApiData(name: string) {
   return `Index Api for ${name}`;
@@ -11,7 +11,7 @@ export function ApiChangeIndexApiName(name: string) {
 }
 
 export function ApiFileName(name: string) {
-  return name;
+  return DashCase(name);
 }
 
 export default {
