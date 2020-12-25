@@ -1,24 +1,8 @@
-import { Choices } from "../../generator/utils";
-
-const RunPathDirectory = () => ({
-  type: 'pathDirectory',
-});
+import { Choices, DirectoryTypeFor, RunPathDirectoryForAction } from "../../generator/utils";
 
 export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
 
-export const DirectoryType = (type = '') => ({
-  name: 'type',
-  type: 'list',
-  choices: Object.values(Choices),
-  message: 'Please Choose what directory type'
-});
-
-export const DirectoryTypeForActions = () => ({
-  name: 'type',
-  type: 'list',
-  choices: Object.values(Choices).filter(f => f !== Choices.Global),
-  message: 'Please Choose what directory type'
-});
+export const AskDirectoryTypeForActions = DirectoryTypeFor('Actions');
 
 export const CheckIfNameIsDirectory = () => ({
   name: 'directory',
@@ -29,7 +13,7 @@ export const CheckIfNameIsDirectory = () => ({
   },
 })
 
-export const GenerateAction: any =  {
+export const GenerateAction =  {
   description: 'Generator For Creating API Component, Smurf.',
   prompts: [
     {
@@ -37,15 +21,15 @@ export const GenerateAction: any =  {
       name: 'name',
       message: 'Name of Action you want to create.'
     },
-    DirectoryTypeForActions(),
+    AskDirectoryTypeForActions,
     CheckIfNameIsDirectory(),
   ],
   actions: [
-    RunPathDirectory(),
+    RunPathDirectoryForAction(),
     {
       type: 'add',
       path: apiPath,
-      templateFile: '{{HlprBaseDirectory}}/smurf-templates/action.smurf'
+      templateFile: '{{HlprBaseDirectory }}/smurf-templates/action.smurf'
     },
     {
       type: 'modify',
@@ -70,7 +54,6 @@ export const GenerateAction: any =  {
 
 export default {
   apiPath,
-  DirectoryType,
-  DirectoryTypeForActions,
+  DirectoryTypeForActions: AskDirectoryTypeForActions,
   GenerateAction,
 };

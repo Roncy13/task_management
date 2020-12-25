@@ -1,5 +1,5 @@
 import { NodePlopAPI } from 'plop';3
-import { GenerateAction, GenerateComponent } from './../custom/actions/index';
+import { GenerateAction } from './../custom/actions/index';
 import * as helpers from './helpers';
 import * as api from './api';
 import * as action from './action';
@@ -16,7 +16,6 @@ export default async function (plop: NodePlopAPI | any) {
     });
   }
 
-  // plop.setGenerator('Component', GenerateComponent);
   plop.setGenerator('Action', GenerateAction);
 
   await SetPlops([action], 'setActionType');
