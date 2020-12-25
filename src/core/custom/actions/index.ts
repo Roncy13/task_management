@@ -1,5 +1,8 @@
 import { Choices } from "../../generator/utils";
-import { ActionConfig } from "plop";
+
+const RunPathDirectory = () => ({
+  type: 'pathDirectory',
+});
 
 export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
 
@@ -26,26 +29,6 @@ export const CheckIfNameIsDirectory = () => ({
   },
 })
 
-export const GenerateComponent: any = {
-  description: 'Generator For Creating API Component, Smurf.',
-  prompts: [
-    {
-      type: 'input',
-      name: 'name',
-      message: 'Name of Api Component you want to create.'
-    },
-    DirectoryTypeForActions(),
-  ],
-  actions: [
-    {
-      type: 'addMany',
-      base: 'src/api/',
-      destination: '{{name}}',
-      templateFiles: '../../smurf-templates/*'
-    }
-  ]
-};
-
 export const GenerateAction: any =  {
   description: 'Generator For Creating API Component, Smurf.',
   prompts: [
@@ -57,38 +40,32 @@ export const GenerateAction: any =  {
     DirectoryTypeForActions(),
     CheckIfNameIsDirectory(),
   ],
-  actions: ({ type }: ActionConfig) => {
-    const path = type === Choices.Default ? `{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts` : apiPath;
-    const actions = [
-      {
-        type: 'pathDirectory',
-      },
-      {
-        type: 'add',
-        path,
-        templateFile: '{{HlprBaseDirectory}}/smurf-templates/action.smurf'
-      },
-      {
-        type: 'modify',
-        path,
-        pattern: /SmurfApi/i,
-        template: '{{ApiChangeIndexApiName name}}'
-      },
-      {
-        type: 'modify',
-        path,
-        pattern: /Smurf Api Data/i,
-        template: '{{ApiChangeApiData name}}'
-      },
-      {
-        type: 'modify',
-        path,
-        pattern: /custom-end-point/i,
-        template: '{{ApiFileName name}}'
-      }
-    ];
-    return actions;
-  }
+  actions: [
+    RunPathDirectory(),
+    {
+      type: 'add',
+      path: apiPath,
+      templateFile: '{{HlprBaseDirectory}}/smurf-templates/action.smurf'
+    },
+    {
+      type: 'modify',
+      path: apiPath,
+      pattern: /SmurfApi/i,
+      template: '{{ApiChangeIndexApiName name}}'
+    },
+    {
+      type: 'modify',
+      path: apiPath,
+      pattern: /Smurf Api Data/i,
+      template: '{{ApiChangeApiData name}}'
+    },
+    {
+      type: 'modify',
+      path: apiPath,
+      pattern: /custom-end-point/i,
+      template: '{{ApiFileName name}}'
+    }
+  ]
 };
 
 export default {
@@ -96,5 +73,4 @@ export default {
   DirectoryType,
   DirectoryTypeForActions,
   GenerateAction,
-  GenerateComponent
 };

@@ -16,7 +16,7 @@ export default async function (plop: NodePlopAPI | any) {
     });
   }
 
-  plop.setGenerator('Component', GenerateComponent);
+  // plop.setGenerator('Component', GenerateComponent);
   plop.setGenerator('Action', GenerateAction);
 
   await SetPlops([action], 'setActionType');
