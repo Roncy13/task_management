@@ -10,12 +10,21 @@ export const DirectoryType = (type = '') => ({
   message: 'Please Choose what directory type'
 });
 
-export const DirectoryTypeForActions = (type = '') => ({
+export const DirectoryTypeForActions = () => ({
   name: 'type',
   type: 'list',
   choices: Object.values(Choices).filter(f => f !== Choices.Global),
   message: 'Please Choose what directory type'
 });
+
+export const CheckIfNameIsDirectory = () => ({
+  name: 'directory',
+  type: 'input',
+  message: 'Input Directory Folder',
+  when: (answer: any) => {
+    return answer.type === Choices.Directory;
+  },
+})
 
 export const GenerateComponent: any = {
   description: 'Generator For Creating API Component, Smurf.',
@@ -25,7 +34,7 @@ export const GenerateComponent: any = {
       name: 'name',
       message: 'Name of Api Component you want to create.'
     },
-    DirectoryTypeForActions()
+    DirectoryTypeForActions(),
   ],
   actions: [
     {
@@ -45,7 +54,9 @@ export const GenerateAction: any =  {
       name: 'name',
       message: 'Name of Action you want to create.'
     },
-    DirectoryTypeForActions()
+    DirectoryTypeForActions(),
+    CheckIfNameIsDirectory(),
+
   ],
   actions: ({ type }: ActionConfig) => {
     const path = type === Choices.Default ? `{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts` : apiPath;
