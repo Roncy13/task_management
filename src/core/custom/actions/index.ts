@@ -1,7 +1,7 @@
 import { Choices } from "../../generator/utils";
 import { ActionConfig } from "plop";
 
-export const apiPath = '{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts';
+export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
 
 export const DirectoryType = (type = '') => ({
   name: 'type',
@@ -56,7 +56,6 @@ export const GenerateAction: any =  {
     },
     DirectoryTypeForActions(),
     CheckIfNameIsDirectory(),
-
   ],
   actions: ({ type }: ActionConfig) => {
     const path = type === Choices.Default ? `{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts` : apiPath;
