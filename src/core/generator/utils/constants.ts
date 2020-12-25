@@ -1,29 +1,16 @@
+import { HlprApiDirectory } from "../helpers";
+
 export const Choices = {
   Global: 'Global',
   Directory: 'Directory',
   Default: 'Default'
 };
 
-export const DirectoryType = (component='') => ({
-  name: 'type',
-  type: 'list',
-  choices: Object.values(Choices),
-  message: `Please Choose what directory for ${component}`
-});
-
-export const DirectoryTypeFor = (component='') => ({
-  name: 'type',
-  type: 'list',
-  choices: Object.values(Choices).filter(f => f !== Choices.Global),
-  message: `Please Choose what directory type for ${component}`
-});
-
-export const RunPathDirectoryForAction = () => ({
-  type: 'pathDirectoryForAction',
-});
+export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
+export const apiPathComponent = '{{HlprCheckDirectory component type location}}/{{DashCase name}}.{{component}}.ts';
 
 export default {
   Choices,
-  DirectoryType,
-  RunPathDirectoryForAction,
+  apiPath,
+  apiPathComponent
 }

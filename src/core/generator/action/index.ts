@@ -1,10 +1,7 @@
-import { HlprApiDirectory } from "../helpers";
+import { PathDirectory } from "../utils/globals";
 
 export function pathDirectoryForAction(answers: any, config: any, plop: any) {
-  answers.location = answers.directory || answers.name;
-  config.pathDirectory = HlprApiDirectory(answers.location);
-
-  return `Path directory is ${answers.type}`;
+  return PathDirectory(answers, config, plop, 'Action');
 }
 
 export default {

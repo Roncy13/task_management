@@ -1,17 +1,6 @@
-import { Choices, DirectoryTypeFor, RunPathDirectoryForAction } from "../../generator/utils";
-
-export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
+import { apiPath, CheckIfNameIsDirectory, DirectoryTypeFor, RunDirectoryAction } from "../../generator/utils";
 
 export const AskDirectoryTypeForActions = DirectoryTypeFor('Actions');
-
-export const CheckIfNameIsDirectory = () => ({
-  name: 'directory',
-  type: 'input',
-  message: 'Input Directory Folder',
-  when: (answer: any) => {
-    return answer.type === Choices.Directory;
-  },
-})
 
 export const GenerateAction =  {
   description: 'Generator For Creating API Component, Smurf.',
@@ -25,7 +14,7 @@ export const GenerateAction =  {
     CheckIfNameIsDirectory(),
   ],
   actions: [
-    RunPathDirectoryForAction(),
+    RunDirectoryAction(),
     {
       type: 'add',
       path: apiPath,
