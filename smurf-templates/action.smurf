@@ -1,11 +1,11 @@
 import SmurfResponse, { SmurfAction } from '../../core/response';
 
 @SmurfAction({
-  action: '/test',
+  action: '/',
 })
-export class IndexApi extends SmurfResponse {
+export class SmurfApi extends SmurfResponse {
 
   async run() {
-    this.data = 'test';
+    this.data = 'Hello Smurf';
   }
 }
