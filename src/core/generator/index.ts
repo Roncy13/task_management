@@ -37,7 +37,7 @@ const generateComponent: any = {
   ]
 };
 
-const apiPath = '{{HlprApiDirectory name}}/{{name}}.actions.ts';
+const apiPath = '{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts';
 const generateAction: any =  {
   description: 'Generator For Creating API Component, Smurf.',
   prompts: [
@@ -49,7 +49,7 @@ const generateAction: any =  {
     DirectoryType()
   ],
   actions: ({ type }: ActionConfig) => {
-    const path = type === Choices.Default ? `{{HlprApiDirectory name}}/{{name}}.actions.ts` : apiPath;
+    const path = type === Choices.Default ? `{{HlprApiDirectory name}}/{{DashCase name}}.actions.ts` : apiPath;
     const actions = [
       {
         type: 'pathDirectory',

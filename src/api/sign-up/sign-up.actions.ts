@@ -3,9 +3,9 @@ import SmurfResponse, { SmurfAction } from '../../core/response';
 @SmurfAction({
   action: '/sign-up',
 })
-export class SignUpApi extends SmurfResponse {
+export class SignupApi extends SmurfResponse {
 
   async run() {
-    this.data = 'Index Api for sign-up';
+    this.data = 'Index Api for signUp';
   }
 }
