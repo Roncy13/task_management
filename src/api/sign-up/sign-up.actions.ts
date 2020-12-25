@@ -6,6 +6,6 @@ import SmurfResponse, { SmurfAction } from '../../core/response';
 export class SignUpApi extends SmurfResponse {
 
   async run() {
-    this.data = 'Hello Smurf';
+    this.data = 'Index Action for sign-up';
   }
 }

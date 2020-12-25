@@ -29,7 +29,7 @@ const apiComponent: any = {
     }
   ]
 };
-
+const actionPath = '{{apiDirectory name}}/{{name}}.actions.ts';
 const action: any =  {
   description: 'Generator For Creating API Component, Smurf.',
   prompts: [
@@ -42,14 +42,20 @@ const action: any =  {
   actions: [
     {
       type: 'add',
-      path: '{{apiDirectory name}}/{{name}}.actions.ts',
+      path: actionPath,
       templateFile: '{{baseDirectory}}/smurf-templates/action.smurf'
     },
     {
       type: 'modify',
-      path: '{{apiDirectory name}}/{{name}}.actions.ts',
-      pattern: /SmurfApi/gi,
+      path: actionPath,
+      pattern: /SmurfApi/i,
       template: '{{changeIndexApiName name}}'
+    },
+    {
+      type: 'modify',
+      path: actionPath,
+      pattern: /Smurf Api Data/i,
+      template: '{{changeActionData name}}'
     }
   ]
 };
@@ -66,6 +72,10 @@ function ApiDirectory(name: string) {
   return `../api/${name}`;
 }
 
+function ChangeActionData(name: string) {
+  return `Index Api for ${name}`;
+}
+
 function ChangeIndexApiName(name: string) {
   const title = TitleCase(name);
   
@@ -77,15 +87,13 @@ function BaseDirectory() {
 }
 
 export default function (plop: NodePlopAPI) {
-
-  /*plop.addHelper('absPath', function (p) {
-		return path.resolve(plop.getPlopfilePath(), p);
-  });*/
   plop.setActionType('pascalNameCase', PascalNameCase)
   plop.setHelper('apiDirectory', ApiDirectory);
-  plop.setHelper('changeIndexApiName', ChangeIndexApiName);
-  
   plop.setHelper('baseDirectory', BaseDirectory);
+
+  
+  plop.setHelper('changeIndexApiName', ChangeIndexApiName);
+  plop.setHelper('changeActionData', ChangeActionData);
 
   plop.setGenerator('Api Component', apiComponent);
   plop.setGenerator('Action', action);
