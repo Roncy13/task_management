@@ -1,0 +1,16 @@
+import { inBody } from '@utilities/constants';
+import { Schema }  from 'express-validator';
+
+// example validator schema using express-validator
+export const IndexSchema: Schema = {
+  sampleFieldName: {
+    ...inBody,
+    isLength: {
+      errorMessage: 'sampleFieldName should be not less than 1 and not greater than 50 characters',
+      options: {
+        min: 1,
+        max: 50,
+      }
+    }
+  },
+};

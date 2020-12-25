@@ -1,0 +1,11 @@
+import { GetUserName } from "@base/services/user.service";
+import { Request } from "express";
+import PolicyError from '@core/policy.error'
+import { CheckEmpty } from "@utilities/dataHelper";
+import IPolicy from "@base/error-types/ipolicy.interface";
+import { compareSync } from 'bcrypt';
+
+// example Policy Controller for Smurf
+export const CheckIndexPolicy = async(req: Request, res: Response, next: any) => {
+  next();
+}
