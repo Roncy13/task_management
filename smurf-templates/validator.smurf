@@ -8,7 +8,7 @@ import { Schema }  from 'express-validator';
 */
 
 export const ValidatorSchema: Schema = {
-   [fieldName]: {
+   fieldName: {
     ...inBody,
       errorMessage: 'Field Name should be not less than 5 and not greater than 225 characters',
       options: {
