@@ -8,23 +8,22 @@ export function HlprApiDirectory(name: string) {
   return `${basePath}/src/api/${DashCase(name)}`;
 }
 
-export function HlprBaseDirectory(folder='') {
+export function HlprBaseDirectory(folder: object | string ='') {
   if (isObject(folder)) {
     return '../../..'
   }
   return `../../..${folder}`
 }
 
-export function HlprCheckDirectory(component = '', type = Choices.Global, name='') {
+export function HlprCheckDirectory(component = '', type = Choices.Global, name='', location = '') {
   if (type === Choices.Global) {
     return `../../../src/services`
   }
+  const apiDirectory = HlprApiDirectory(type === Choices.Default ? name : location);
+  console.log({ name, location });
+  console.log({ apiDirectory });
 
-  if (type === Choices.Default) {
-    return HlprApiDirectory(name);
-  }
-
-  return HlprBaseDirectory(name)
+  return apiDirectory;
 }
 
 export default {

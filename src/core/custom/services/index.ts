@@ -1,5 +1,5 @@
 import { apiPathComponent, DirectoryType } from "../../generator/utils";
-import { RunDirectoryService } from './../../generator/utils/globals';
+import { CheckIfNameIsDirectory, RunDirectoryService } from './../../generator/utils/globals';
 
 export const AskDirectoryTypeForService = DirectoryType('Services');
 
@@ -12,6 +12,7 @@ export const GenerateService = {
       message: 'Name of Service you want to create.'
     },
     AskDirectoryTypeForService,
+    CheckIfNameIsDirectory(),
   ],
   actions: [
     RunDirectoryService,
@@ -22,14 +23,14 @@ export const GenerateService = {
     {
       type: 'add',
       path: apiPathComponent,
-      templateFile: '{{HlprBaseDirectory }}/smurf-templates/service.smurf'
+      templateFile: '{{ HlprBaseDirectory }}/smurf-templates/service.smurf'
     },
-    {
+    /*{
       type: 'modify',
       path: apiPathComponent,
       pattern: /ModelAllSrv/gi,
       template: '{{ServiceChangeModelAll name}}'
-    },
+    },*/
   ]
 }
 

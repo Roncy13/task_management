@@ -28,7 +28,9 @@ export function PathDirectory(answers: any, config: any, plop: any, component = 
   answers.location = answers.directory || answers.name;
   config.pathDirectory = HlprApiDirectory(answers.location);
 
-  return `Path directory is ${answers.type} for ${component}`;
+  const message = `Path directory is ${answers.type} for ${component}`;
+  
+  return message;
 }
 
 export function SetYourComponent(answers: any, config: any, plop: any, component = '') {
@@ -49,10 +51,15 @@ export const RunDirectoryService = () => ({
   type: 'pathDirectoryForService',
 });
 
+export const RunDirectoryModel = () => ({
+  type: 'pathDirectoryForModel',
+});
+
 export default {
+  SetYourComponent,
   CheckIfNameIsDirectory,
   DirectoryType,
   RunPathDirectory,
   RunDirectoryAction,
-  SetYourComponent
+  RunDirectoryModel
 }

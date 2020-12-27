@@ -1,5 +1,3 @@
-import { HlprApiDirectory } from "../helpers";
-
 export const Choices = {
   Global: 'Global',
   Directory: 'Directory',
@@ -7,7 +5,7 @@ export const Choices = {
 };
 
 export const apiPath = '{{HlprApiDirectory location}}/{{DashCase name}}.actions.ts';
-export const apiPathComponent = '{{HlprCheckDirectory component type location}}/{{DashCase name}}.{{component}}.ts';
+export const apiPathComponent = '{{HlprCheckDirectory component type name location}}/{{DashCase name}}.{{component}}.ts';
 
 export default {
   Choices,
