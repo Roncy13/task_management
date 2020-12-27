@@ -18,19 +18,19 @@ export const GenerateService = {
     RunDirectoryService,
     {
       type: 'setComponent',
-      component: 'service'
+      component: 'services',
     },
     {
       type: 'add',
       path: apiPathComponent,
       templateFile: '{{ HlprBaseDirectory }}/smurf-templates/service.smurf'
     },
-    /*{
+    {
       type: 'modify',
       path: apiPathComponent,
       pattern: /ModelAllSrv/gi,
       template: '{{ServiceChangeModelAll name}}'
-    },*/
+    }
   ]
 }
 

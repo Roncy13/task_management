@@ -34,8 +34,8 @@ export function PathDirectory(answers: any, config: any, plop: any, component = 
 }
 
 export function SetYourComponent(answers: any, config: any, plop: any, component = '') {
-  answers.component = config.component
-  console.log({ answers, config });
+  answers.component = config.component;
+  answers.extension = config.extension || config.component;
 
   return `Setting Component to ${answers.component}`;
 }

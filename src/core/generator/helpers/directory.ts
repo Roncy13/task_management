@@ -15,9 +15,9 @@ export function HlprBaseDirectory(folder: object | string ='') {
   return `../../..${folder}`
 }
 
-export function HlprCheckDirectory(type = Choices.Global, name='', directory = '') {
+export function HlprCheckDirectory(component= '', type = Choices.Global, name='', directory = '') {
   if (type === Choices.Global) {
-    return `../../../src/services`
+    return `../../../src/${component}`
   }
 
   return HlprApiDirectory(type === Choices.Default ? name : directory);

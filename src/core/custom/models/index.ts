@@ -17,7 +17,8 @@ export const GenerateModel = {
     RunDirectoryModel,
     {
       type: 'setComponent',
-      component: 'entity'
+      component: 'models',
+      extension: 'entity'
     },
     {
       type: 'add',
@@ -28,7 +29,7 @@ export const GenerateModel = {
       type: 'modify',
       path: apiPathComponent,
       pattern: /ModelName/gi,
-      template: '{{RunDirectoryService name}}'
+      template: '{{RunDirectoryModel name}}'
     },
   ]
 }
