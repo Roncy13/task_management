@@ -52,6 +52,10 @@ export const RunDirectoryService = () => ({
   type: 'pathDirectoryForService',
 });
 
+export const RunDirectoryValidator = () => ({
+  type: 'pathDirectoryForValidator',
+});
+
 export const RunDirectoryModel = () => ({
   type: 'pathDirectoryForModel',
 });
@@ -62,5 +66,6 @@ export default {
   DirectoryType,
   RunPathDirectory,
   RunDirectoryAction,
-  RunDirectoryModel
+  RunDirectoryModel,
+  RunDirectoryValidator
 }
