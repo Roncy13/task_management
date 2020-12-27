@@ -2,7 +2,23 @@ import { apiPathComponent, DirectoryType } from "../../generator/utils";
 import { CheckIfNameIsDirectory, RunDirectoryService } from './../../generator/utils/globals';
 
 export const AskDirectoryTypeForService = DirectoryType('Services');
-
+export const serviceActions = [
+  {
+    type: 'setComponent',
+    component: 'services',
+  },
+  {
+    type: 'add',
+    path: apiPathComponent,
+    templateFile: '{{ HlprBaseDirectory }}/smurf-templates/service.smurf'
+  },
+  {
+    type: 'modify',
+    path: apiPathComponent,
+    pattern: /ModelAllSrv/gi,
+    template: '{{ServiceChangeModelAll name}}'
+  }
+];
 export const GenerateService = {
   description: 'Generator For Creating Service, Smurf',
   prompts: [
@@ -16,25 +32,12 @@ export const GenerateService = {
   ],
   actions: [
     RunDirectoryService,
-    {
-      type: 'setComponent',
-      component: 'services',
-    },
-    {
-      type: 'add',
-      path: apiPathComponent,
-      templateFile: '{{ HlprBaseDirectory }}/smurf-templates/service.smurf'
-    },
-    {
-      type: 'modify',
-      path: apiPathComponent,
-      pattern: /ModelAllSrv/gi,
-      template: '{{ServiceChangeModelAll name}}'
-    }
+    ...serviceActions
   ]
 }
 
 export default {
   GenerateService,
   AskDirectoryTypeForService,
+  serviceActions
 }

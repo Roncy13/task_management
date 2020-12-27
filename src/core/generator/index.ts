@@ -4,15 +4,15 @@ import { GenerateService } from './../custom/services';
 import { SetYourComponent } from './utils/globals';
 import { GenerateModel } from './../custom/models';
 import { GenerateValidator } from './../custom/validator';
+import { GenerateApi } from './../custom/api';
 import { GenerateGuard, GeneratePolicy } from './../custom/middlewares';
 import * as helpers from './helpers';
-import * as api from './api';
 import * as service from './service';
 import * as action from './action';
 import * as model from './model';
 import * as validator from './validator';
 import * as middlewares from './middlewares';
-
+import * as api from './api';
 
 export default async function (plop: NodePlopAPI | any) {
   async function SetPlops(values: Array<Object>, plopType: string) {
@@ -26,6 +26,7 @@ export default async function (plop: NodePlopAPI | any) {
     });
   }
 
+  plop.setGenerator('Api', GenerateApi);
   plop.setGenerator('Action', GenerateAction);
   plop.setGenerator('Service', GenerateService);
   plop.setGenerator('Model', GenerateModel);
