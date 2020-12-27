@@ -6,6 +6,6 @@ import IPolicy from "@base/error-types/ipolicy.interface";
 import { compareSync } from 'bcrypt';
 
 // example Policy Controller for Smurf
-export const CheckIndexPolicy = async(req: Request, res: Response, next: any) => {
+export const smurfPolicy = async(req: Request, res: Response, next: any) => {
   next();
 }
