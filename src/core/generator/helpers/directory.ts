@@ -15,15 +15,12 @@ export function HlprBaseDirectory(folder: object | string ='') {
   return `../../..${folder}`
 }
 
-export function HlprCheckDirectory(component = '', type = Choices.Global, name='', location = '') {
+export function HlprCheckDirectory(type = Choices.Global, name='', directory = '') {
   if (type === Choices.Global) {
     return `../../../src/services`
   }
-  const apiDirectory = HlprApiDirectory(type === Choices.Default ? name : location);
-  console.log({ name, location });
-  console.log({ apiDirectory });
 
-  return apiDirectory;
+  return HlprApiDirectory(type === Choices.Default ? name : directory);
 }
 
 export default {

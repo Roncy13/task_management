@@ -29,12 +29,13 @@ export function PathDirectory(answers: any, config: any, plop: any, component = 
   config.pathDirectory = HlprApiDirectory(answers.location);
 
   const message = `Path directory is ${answers.type} for ${component}`;
-  
+
   return message;
 }
 
 export function SetYourComponent(answers: any, config: any, plop: any, component = '') {
   answers.component = config.component
+  console.log({ answers, config });
 
   return `Setting Component to ${answers.component}`;
 }
