@@ -4,11 +4,11 @@ Microservices design in top of Expressjs. Functional approach. Inspired from #Ad
 
 type [npm run smurf] for creating actions, services and other available components.
 
-#Running the application in dev mode
+# Running the application in dev mode
 
 type [npm run dev]
 
-#Short Reminders
+# Short Reminders
 
 - Guards is first to be checked before policy.
 - They are implemented in the same way, its just the ordering of execution and error type code are the only difference.
