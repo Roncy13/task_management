@@ -7,6 +7,7 @@ import * as helpers from './helpers';
 import * as api from './api';
 import * as service from './service';
 import * as action from './action';
+import * as model from './model';
 
 export default async function (plop: NodePlopAPI | any) {
   async function SetPlops(values: Array<Object>, plopType: string) {
@@ -23,8 +24,9 @@ export default async function (plop: NodePlopAPI | any) {
   plop.setGenerator('Action', GenerateAction);
   plop.setGenerator('Service', GenerateService);
   plop.setGenerator('Model', GenerateModel);
+
   plop.setActionType('setComponent', SetYourComponent);
 
   await SetPlops([action], 'setActionType');
-  await SetPlops([helpers, api, service], 'setHelper');
+  await SetPlops([helpers, api, service, model], 'setHelper');
 };

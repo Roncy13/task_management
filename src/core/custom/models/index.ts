@@ -1,5 +1,5 @@
 import { apiPathComponent, DirectoryType } from "../../generator/utils";
-import { RunDirectoryModel } from './../../generator/utils/globals';
+import { CheckIfNameIsDirectory, RunDirectoryModel } from './../../generator/utils/globals';
 
 export const AskDirectoryTypeForModel = DirectoryType('Model');
 
@@ -12,6 +12,7 @@ export const GenerateModel = {
       message: 'Name of Model you want to create.'
     },
     AskDirectoryTypeForModel,
+    CheckIfNameIsDirectory(),
   ],
   actions: [
     RunDirectoryModel,
@@ -29,7 +30,7 @@ export const GenerateModel = {
       type: 'modify',
       path: apiPathComponent,
       pattern: /ModelName/gi,
-      template: '{{RunDirectoryModel name}}'
+      template: '{{ModelChangeName name}}'
     },
   ]
 }
