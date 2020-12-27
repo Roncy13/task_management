@@ -24,8 +24,15 @@ export const apiActions = [
     path: apiPath,
     pattern: /custom-end-point/i,
     template: '{{ApiFileName name}}'
+  },
+  {
+    type: 'modify',
+    path: apiPath,
+    pattern: /message-action/i,
+    template: '{{ChangeMessageAction name}}'
   }
 ];
+
 export const GenerateAction =  {
   description: 'Generator For Creating API Component, Smurf.',
   prompts: [
