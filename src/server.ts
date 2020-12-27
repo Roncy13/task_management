@@ -90,7 +90,7 @@ function setErrorHandler() {
     logger.error(`Error in Base Code Server: ${err.message}`);
 
     res.status(SERVER_ERROR).json({
-      message: 'Internal Server Error, Please Email Biozoned for more details...!',
+      message: 'Internal Server Error, Please Email SmurfJs for more details...!',
       statusCode: SERVER_ERROR
     })
   })

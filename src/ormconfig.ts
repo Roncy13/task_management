@@ -1,7 +1,5 @@
 import dotenv from "dotenv";
 
-dotenv.config();
-
 const config = {
   type: process.env.DB_TYPE || "mysql",
   host: process.env.DB_HOST || "localhost",
@@ -12,13 +10,14 @@ const config = {
   logging: false,
   synchronize: false,
   entities: [
-     __dirname + '/**/models/*.entity{.ts,.js}'
+    __dirname + '/**/models/*.entity{.ts,.js}',
+    __dirname + '/**/api/**/*.entity{.ts,.js}'
   ],
   migrations: [
-    __dirname + '/**/migrations/*{.ts,.js}'
+    'migrations/*{.ts,.js}'
   ],
   cli: {
-      migrationsDir: "src/migrations",
+      migrationsDir: "migrations",
   }
 };
 

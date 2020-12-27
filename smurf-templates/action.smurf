@@ -1,4 +1,4 @@
-import SmurfResponse, { SmurfAction } from '../../core/response';
+import SmurfResponse, { SmurfAction } from "@core/response";
 
 @SmurfAction({
   action: '/custom-end-point',

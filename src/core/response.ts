@@ -67,9 +67,9 @@ export default abstract class SmurfResponse extends ISmurfOptions {
     }
 
     response(): Response {
-      const { data, message, status, resp, req } = this;
+      const { data = {}, message, status, resp, req } = this;
 
-      if (CheckEmpty(resp) && CheckEmpty(req) ) {
+      if (CheckEmpty(resp) && CheckEmpty(req)) {
         throw new Error('Response and Request are not set');
       }
 

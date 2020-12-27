@@ -1,5 +1,5 @@
-import { PrimaryGeneratedColumn, Column} from "typeorm";
 import  "reflect-metadata";
+import { PrimaryGeneratedColumn, Column} from "typeorm";
 
 export class BaseEntity {
     @PrimaryGeneratedColumn('uuid')
