@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 
+dotenv.config();
+
 const config = {
   type: process.env.DB_TYPE || "mysql",
   host: process.env.DB_HOST || "localhost",
