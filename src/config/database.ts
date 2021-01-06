@@ -1,6 +1,5 @@
-import { ConnectionOptions, createConnection, getRepository, Entity, getConnection } from 'typeorm';
+import { ConnectionOptions, createConnection, getRepository } from 'typeorm';
 import ormconfig from '@base/ormconfig';
-
 delete ormconfig.migrations;
 delete ormconfig.cli;
 
