@@ -1,12 +1,16 @@
 # Smurfjs
 
-Microservices design in top of Expressjs. Functional approach. Inspired by #Adonis #Nestjs #Actionherojs.
+Microservices design in top of Expressjs. Functional approach. Inspired by Adonis Nestjs Actionherojs.
 
 type [npm run smurf] for creating actions, services and other available components.
 
 # Running the application in dev mode
 
 type [npm run dev]
+
+# Deployment
+
+type [npm run start] or deploy it with pm2
 
 # Short Reminders
 
