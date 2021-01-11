@@ -16,3 +16,6 @@ type [npm run dev]
 - This is the version 1 of the Framework.
 - There is an existing API in the user folder under api. Please check how api creation is implemented.
 - Happy coding.
+
+# Let the Code talk to you, HAHAHAHAHA
+- For Now, documentation is on the development, if you have question, you can create issues or email me at JamesRoncy13@gmail.com
