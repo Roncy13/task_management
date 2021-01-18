@@ -16,4 +16,4 @@ export enum VARCHAR_STR {
 };
 
 export const saltRounds = 10;
-export const SECRET_KEY = 'SAMPLE_SECRET_KEY_DIGITAL_ARCHIVE';
+export const SECRET_KEY = 'SAMPLE_SECRET_KEY';
