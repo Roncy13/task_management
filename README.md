@@ -18,7 +18,7 @@ type [npm run start] or deploy it with pm2
 - They are implemented in the same way, its just the ordering of execution and error type code are the only difference.
 - Please Stop Making Classical Approach. I Made this framework for Functional Approach.
 - This is the version 1 of the Framework.
-- There is an existing API in the user folder under api. Please check how api creation is implemented.
+- There is an existing component in the user folder under api. Please check how api creation is implemented.
 - Happy coding.
 
 # Let the Code talk to you, HAHAHAHAHA
