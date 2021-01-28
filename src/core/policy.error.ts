@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 
 export default class PolicyError extends Error {
   errorParams: IError;
-  statusCode: number = StatusCodes.UNPROCESSABLE_ENTITY;
+  statusCode: number = StatusCodes.CONFLICT;
 
   constructor (params : IPolicy) {
     super(params.message)
@@ -12,6 +12,6 @@ export default class PolicyError extends Error {
     // assign the error class name in your custom error (as a shortcut)
     this.errorParams = params;
     this.name = params.name;
-    this.statusCode = params.statusCode || StatusCodes.UNPROCESSABLE_ENTITY
+    this.statusCode = params.statusCode || StatusCodes.CONFLICT
   }
 }
