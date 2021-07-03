@@ -7,7 +7,7 @@ import { Schema }  from 'express-validator';
  * In Body just tells that the schema be used in the Body section of the request.
  */
 
-export const CategorySchema: Schema = {
+export const PeopleSchema: Schema = {
   sampleFieldName: {
     ...inBody,
     isLength: {

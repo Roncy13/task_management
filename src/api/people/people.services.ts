@@ -4,7 +4,7 @@ import "reflect-metadata";
  * For Typeorm use
  * import { GetConnection } from '@config/database';
  * const model = GetConnection( Put Your Typeorm Schema Here);
- * export function CategoryAllSrv() {
+ * export function PeopleAllSrv() {
  *   return model.find();
  * }
  */
