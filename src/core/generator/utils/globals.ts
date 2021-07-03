@@ -68,6 +68,10 @@ export const RunDirectoryPolicy = () => ({
   type: 'pathDirectoryForPolicy',
 });
 
+export const RunDirectoryRoute = () => ({
+  type: 'pathDirectoryForRoute',
+});
+
 export default {
   SetYourComponent,
   CheckIfNameIsDirectory,
@@ -78,4 +82,5 @@ export default {
   RunDirectoryValidator,
   RunDirectoryGuard,
   RunDirectoryPolicy,
+  RunDirectoryRoute
 }
