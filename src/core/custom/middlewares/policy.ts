@@ -20,7 +20,7 @@ export const policyActions = [
   }
 ];
 export const GeneratePolicy = {
-  description: 'Generator For Creating Typeorm Policy, Smurf',
+  description: 'Generator For Creating Policy',
   prompts: [
     {
       type: 'input',

@@ -20,7 +20,7 @@ export const validatorActions = [
   }
 ];
 export const GenerateValidator = {
-  description: 'Generator For Creating Validator, Smurf',
+  description: 'Generator For Creating Validator',
   prompts: [
     {
       type: 'input',

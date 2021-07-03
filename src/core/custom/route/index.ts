@@ -21,7 +21,7 @@ export const routeActions = [
   },
 ];
 export const GenerateRoute = {
-  description: 'Generator For Creating Route, Smurf',
+  description: 'Generator For Creating Route',
   prompts: [
     {
       type: 'input',

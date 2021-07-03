@@ -9,7 +9,7 @@ import { routeActions } from "../route";
 export const AskDirectoryTypeForApis = DirectoryTypeFor('Apis');
 
 export const GenerateApi =  {
-  description: 'Generator For Creating API Component, Smurf.',
+  description: 'Generator For Creating API Component.',
   prompts: [
     {
       type: 'input',

@@ -34,7 +34,7 @@ export const apiActions = [
 ];
 
 export const GenerateAction =  {
-  description: 'Generator For Creating API Component, Smurf.',
+  description: 'Generator For Creating API Component.',
   prompts: [
     {
       type: 'input',

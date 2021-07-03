@@ -20,7 +20,7 @@ export const guardActions = [
   },
 ];
 export const GenerateGuard = {
-  description: 'Generator For Creating Typeorm Guard, Smurf',
+  description: 'Generator For Creating Guard',
   prompts: [
     {
       type: 'input',
