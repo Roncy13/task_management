@@ -5,12 +5,14 @@ import { SetYourComponent } from './utils/globals';
 import { GenerateModel } from './../custom/models';
 import { GenerateValidator } from './../custom/validator';
 import { GenerateApi } from './../custom/api';
+import { GenerateRoute } from './../custom/route';
 import { GenerateGuard, GeneratePolicy } from './../custom/middlewares';
 import * as helpers from './helpers';
 import * as service from './service';
 import * as action from './action';
 import * as model from './model';
 import * as validator from './validator';
+import * as route from './route';
 import * as middlewares from './middlewares';
 import * as api from './api';
 
@@ -28,6 +30,7 @@ export default async function (plop: NodePlopAPI | any) {
 
   plop.setGenerator('Api', GenerateApi);
   plop.setGenerator('Action', GenerateAction);
+  plop.setGenerator('Route', GenerateRoute);
   plop.setGenerator('Service', GenerateService);
   plop.setGenerator('Model', GenerateModel);
   plop.setGenerator('Validator', GenerateValidator);
@@ -37,5 +40,5 @@ export default async function (plop: NodePlopAPI | any) {
   plop.setActionType('setComponent', SetYourComponent);
 
   await SetPlops([action], 'setActionType');
-  await SetPlops([helpers, api, service, model, validator, middlewares], 'setHelper');
+  await SetPlops([helpers, api, route, service, model, validator, middlewares], 'setHelper');
 };

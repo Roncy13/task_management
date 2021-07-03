@@ -19,7 +19,7 @@ dotenv.config();
 const port = process.env.PORT || 4000;
 const app: any = express();
 const endpoints: any = [];
-const apiLocations = `${__dirname}/api/**/*.actions{.js,.ts}`;
+const apiLocations = `${__dirname}/api/**/*.routes{.js,.ts}`;
 const defaultCors = {
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -162,12 +162,8 @@ const ReadApi = async (err: any, files: string[]) => {
     app[method](action, ...guards, setValidation, validationMiddleware, ...policies,  async (req: Request, res: Response, next: any) => {
       try {
         const Component = new apiComponent();
-        Component.setResponse(res);
-        Component.setRequest(req);
-
-        await Component.run();
-
-        return Component.response();
+        await Component.run(req, res);
+        return Component.response(req, res);
       } catch(err) {
         next(err);
       }

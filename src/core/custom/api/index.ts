@@ -4,6 +4,7 @@ import { guardActions, policyActions } from "../middlewares";
 import { modelActions } from "../models";
 import { serviceActions } from "../services";
 import { validatorActions } from "../validator";
+import { routeActions } from "../route";
 
 export const AskDirectoryTypeForApis = DirectoryTypeFor('Apis');
 
@@ -25,6 +26,7 @@ export const GenerateApi =  {
     ...policyActions,
     ...guardActions,
     ...validatorActions,
+    ...routeActions,
     ...serviceActions
   ]
 };

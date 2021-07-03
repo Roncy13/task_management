@@ -1,14 +1,44 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
-import { UserGuard } from './user.guard';
+import { HTTP_METHODS } from "@utilities/constants";
+import { Request } from 'express';
+import { GetUserAll } from "./user.services";
+import { Response } from 'express';
 
 @SmurfAction({
   action: '/user',
   message: 'User fetched successfully',
-  guards: [UserGuard]
 })
 export class UserApi extends SmurfResponse {
 
   async run() {
-    this.result = 'index api for User';
+    this.result = await GetUserAll();
+  }
+}
+
+@SmurfAction({
+  action: '/user',
+  message: 'User fetched successfully',
+  method: HTTP_METHODS.POST
+})
+export class CreateUserApi extends SmurfResponse {
+
+  async run({ body, query }: Request) {
+    this.result = {
+      body, query
+    };
+  }
+}
+
+@SmurfAction({
+  action: '/user/:id',
+  message: 'User fetched successfully',
+  method: HTTP_METHODS.PATCH
+})
+export class PatchUserApi extends SmurfResponse {
+
+  async run({ body, query, params }: Request, { locals }: Response) {
+    this.result = {
+      body, query, params
+    };
   }
 }

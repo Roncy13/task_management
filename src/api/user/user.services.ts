@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 /**
  * For Typeorm use
  * import { GetConnection } from '@config/database';
@@ -8,3 +6,13 @@ import "reflect-metadata";
  *   return model.find();
  * }
  */
+
+export async function GetUserAll() {
+  const result = await new Promise((resolve) => {
+    setTimeout(
+      () => resolve([{ name: 'namess'}, { name: 'tesdasa'}]),
+    3000)
+  });
+
+  return result;
+}
