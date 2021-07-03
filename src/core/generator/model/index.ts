@@ -7,7 +7,7 @@ export function pathDirectoryForModel(answers: any, config: any, plop: any) {
 
 export function ModelChangeName(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}`;
 }
 

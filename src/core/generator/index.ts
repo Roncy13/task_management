@@ -15,7 +15,7 @@ import * as middlewares from './middlewares';
 import * as api from './api';
 
 export default async function (plop: NodePlopAPI | any) {
-  async function SetPlops(values: Array<Object>, plopType: string) {
+  async function SetPlops(values: Object[], plopType: string) {
     await values.forEach(async (r) => {
       const func = r as any;
       const keys = Object.keys(r).filter(f => f !== 'default');

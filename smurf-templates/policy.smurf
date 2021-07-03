@@ -1,6 +1,10 @@
 import { Request } from "express";
 
-// example Policy Controller for Smurf
+/**
+ * Example Policy Controller for Smurf
+ */
 export const smurfPolicy = async(req: Request, res: Response, next: any) => {
+  
+  // Provide throw for your policy error
   next();
 }

@@ -7,7 +7,7 @@ export function pathDirectoryForValidator(answers: any, config: any, plop: any) 
 
 export function ValidatorChangeName(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}Schema`;
 }
 

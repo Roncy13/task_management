@@ -6,7 +6,7 @@ export const modelActions = [
   {
     type: 'setComponent',
     component: 'models',
-    extension: 'entity'
+    extension: 'model'
   },
   {
     type: 'add',

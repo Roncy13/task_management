@@ -33,7 +33,10 @@
       "src/*",
   ],
   "exclude": [
+    "src/core",
     "dist/",
-    "migrations/*"
+    "migrations/*",
+    "./*.json",
+    "./*.md"
   ]
 }
