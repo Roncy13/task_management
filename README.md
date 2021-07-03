@@ -21,5 +21,5 @@ type [npm run start] or deploy it with pm2
 - There is an existing component in the user folder under api. Please check how api creation is implemented.
 - Happy coding.
 
-# Let the Code talk to you, HAHAHAHAHA
+# This boilerplate is in development mode.
 - For Now, documentation is on the development, if you have question, you can create issues or email me at JamesRoncy13@gmail.com
