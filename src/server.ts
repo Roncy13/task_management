@@ -14,7 +14,6 @@ import { isEmpty } from 'lodash';
 import { StatusCodes } from "http-status-codes";
 import { checkSchema, validationResult } from "express-validator";
 import cors from 'cors';
-import connection from '@config/database';
 dotenv.config();
 
 const port = process.env.PORT || 4000;
@@ -178,8 +177,10 @@ const ReadApi = async (err: any, files: string[]) => {
   startServer();
 }
 
-connection().then(() => {
+const MainApp = () => {
   setLogger();
   setAppUse();
   glob(apiLocations, ReadApi);
-}).catch((err: Error) => logger.error(`Error in Database, ${err.message}`));
+}
+
+MainApp();
