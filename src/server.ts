@@ -4,6 +4,7 @@ import express, { Response, Request } from "express";
 import glob from 'glob';
 import bodyParser from 'body-parser';
 import logger from '@config/logger';
+import appUse from '@config/app.use';
 import winston from 'winston';
 import expressWinston from 'express-winston';
 import ValidationError from '@core/validation.error';
@@ -13,29 +14,14 @@ import IError from '@error-handling/error.interface';
 import { isEmpty } from 'lodash';
 import { StatusCodes } from "http-status-codes";
 import { checkSchema, validationResult } from "express-validator";
-import cors from 'cors';
+import { exit } from 'shelljs';
+
 dotenv.config();
 
 const port = process.env.PORT || 4000;
 const app: any = express();
 const endpoints: any = [];
 const apiLocations = `${__dirname}/api/**/*.routes{.js,.ts}`;
-const defaultCors = {
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-};
-
-function setAppUse() {
-  // start the express server
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-  // parse application/json
-  app.use(bodyParser.json());
-
-  app.use(cors(defaultCors));
-}
 
 function startServer() {
   app.listen( port, () => {
@@ -65,7 +51,7 @@ function setErrorHandler() {
         statusCode,
       })
     } else if (err instanceof PolicyError) {
-      const { message, errors = [] } = err.errorParams;
+      const { message } = err.errorParams;
       const { statusCode, name } = err;
 
       return res.status(statusCode).json({
@@ -173,9 +159,18 @@ const ReadApi = async (err: any, files: string[]) => {
   startServer();
 }
 
+function setAppUse() {
+  // start the express server
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  // parse application/json
+  app.use(bodyParser.json());
+  appUse.map(row => row.use(app))
+}
+
 const MainApp = () => {
   setLogger();
-  setAppUse();
+  setAppUse()
   glob(apiLocations, ReadApi);
 }
 

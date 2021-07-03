@@ -10,7 +10,6 @@ export function HlprApiDirectory(name: string) {
   const directory = [...splitName, dashCase];
   const result = `${basePath}/src/api/${directory.join('/')}`;
 
-  console.log({ result });
   return result;
 }
 
