@@ -4,8 +4,14 @@ import { DashCase } from "./strings";
 
 export function HlprApiDirectory(name: string) {
   const basePath = HlprBaseDirectory();
+  const splitName = name.split('/');
+  const dirName = splitName.pop();
+  const dashCase = DashCase(dirName);
+  const directory = [...splitName, dashCase];
+  const result = `${basePath}/src/api/${directory.join('/')}`;
 
-  return `${basePath}/src/api/${DashCase(name)}`;
+  console.log({ result });
+  return result;
 }
 
 export function HlprBaseDirectory(folder: object | string ='') {
