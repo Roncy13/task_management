@@ -9,6 +9,6 @@ import { UserGuard } from './user.guard';
 export class UserApi extends SmurfResponse {
 
   async run() {
-    this.data = 'index api for User';
+    this.result = 'index api for User';
   }
 }

@@ -17,7 +17,7 @@ class ISmurfOptions {
 }
 
 export default abstract class SmurfResponse extends ISmurfOptions {
-    data: any = {};
+    result: any = {};
     inputs: object;
     query: object;
     params: object;
@@ -40,7 +40,7 @@ export default abstract class SmurfResponse extends ISmurfOptions {
       })
     }
 
-    abstract async run(): Promise<void>;
+    abstract run(): Promise<void>;
 
     setResponse(response: Response): void {
       this.resp = response;
@@ -58,7 +58,7 @@ export default abstract class SmurfResponse extends ISmurfOptions {
       this.inputs = {};
       this.query = {};
       this.params = {};
-      this.data = {};
+      this.result = {};
       this.policies = [];
       this.guards = [];
       this.resp = null;
@@ -67,14 +67,14 @@ export default abstract class SmurfResponse extends ISmurfOptions {
     }
 
     response(): Response {
-      const { data = {}, message, status, resp, req } = this;
+      const { result = {}, message, status, resp, req } = this;
 
       if (CheckEmpty(resp) && CheckEmpty(req)) {
         throw new Error('Response and Request are not set');
       }
 
       return resp.status(status).json({
-        data,
+        result,
         message,
         statusCode: status
       });
