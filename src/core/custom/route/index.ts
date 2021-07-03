@@ -6,7 +6,7 @@ export const routeActions = [
   {
     type: 'setComponent',
     component: 'route',
-    extension: 'route'
+    extension: 'routes'
   },
   {
     type: 'add',

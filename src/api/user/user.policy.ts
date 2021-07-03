@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 
 /**
  * Example Policy Controller for Smurf
@@ -6,5 +6,8 @@ import { Request } from "express";
 export const UserPolicy = async(req: Request, res: Response, next: any) => {
 
   // Provide throw for your policy error
+  res.locals = {
+    test: 'dsadsad'
+  }
   next();
 }

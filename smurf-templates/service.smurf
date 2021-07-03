@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 /**
  * For Typeorm use
  * import { GetConnection } from '@config/database';
