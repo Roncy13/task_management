@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import express, { Response, Request } from "express";
 import glob from 'glob';
 import bodyParser from 'body-parser';
-import connection from '@config/database';
 import logger from '@config/logger';
 import winston from 'winston';
 import expressWinston from 'express-winston';
@@ -15,6 +14,7 @@ import { isEmpty } from 'lodash';
 import { StatusCodes } from "http-status-codes";
 import { checkSchema, validationResult } from "express-validator";
 import cors from 'cors';
+import connection from '@config/database';
 dotenv.config();
 
 const port = process.env.PORT || 4000;
@@ -118,9 +118,11 @@ const ReadDirectories = async (file: any) => {
   const component = require(file);
   const classFn = Object.keys(component);
   const readFiles = classFn.map(fn => {
-    const apiComponent = new component[fn]();
+    const fetchComponent = component[fn];
+    const apiComponent = new fetchComponent();
+
     const { method, action, validation, policies, guards } = apiComponent;
-    endpoints.push({ method, action, apiComponent, validation, policies, guards });
+    endpoints.push({ method, action, apiComponent: fetchComponent, validation, policies, guards });
   })
   await Promise.all(readFiles);
 }
@@ -160,12 +162,13 @@ const ReadApi = async (err: any, files: string[]) => {
 
     app[method](action, ...guards, setValidation, validationMiddleware, ...policies,  async (req: Request, res: Response, next: any) => {
       try {
-        apiComponent.setResponse(res);
-        apiComponent.setRequest(req);
+        const Component = new apiComponent();
+        Component.setResponse(res);
+        Component.setRequest(req);
 
-        await apiComponent.run();
+        await Component.run();
 
-        return apiComponent.response();
+        return Component.response();
       } catch(err) {
         next(err);
       }
