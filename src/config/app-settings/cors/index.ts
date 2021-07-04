@@ -8,5 +8,4 @@ const defaultCors = {
 };
 export default function Cors(app: any) {
   app.use(cors(defaultCors));
-  throw new Error('test');
 }
