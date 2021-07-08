@@ -20,7 +20,7 @@ export const serviceActions = [
   }
 ];
 export const GenerateService = {
-  description: 'Generator For Creating Service, Smurf',
+  description: 'Generator For Creating Service',
   prompts: [
     {
       type: 'input',

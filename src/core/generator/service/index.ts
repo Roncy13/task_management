@@ -7,7 +7,7 @@ export function pathDirectoryForService(answers: any, config: any, plop: any) {
 
 export function ServiceChangeModelAll(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}AllSrv`;
 }
 

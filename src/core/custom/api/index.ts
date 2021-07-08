@@ -4,11 +4,12 @@ import { guardActions, policyActions } from "../middlewares";
 import { modelActions } from "../models";
 import { serviceActions } from "../services";
 import { validatorActions } from "../validator";
+import { routeActions } from "../route";
 
 export const AskDirectoryTypeForApis = DirectoryTypeFor('Apis');
 
 export const GenerateApi =  {
-  description: 'Generator For Creating API Component, Smurf.',
+  description: 'Generator For Creating API Component.',
   prompts: [
     {
       type: 'input',
@@ -25,6 +26,7 @@ export const GenerateApi =  {
     ...policyActions,
     ...guardActions,
     ...validatorActions,
+    ...routeActions,
     ...serviceActions
   ]
 };

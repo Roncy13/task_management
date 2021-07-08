@@ -1,10 +1,8 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
-import { UserAllSrv, UserById, UserCreate, UserUpdate } from "./user.services";
-import { UserDTO } from './user.dto';
 import { HTTP_METHODS } from "@utilities/constants";
-import { UserByIdSchema, UserSchema, UserUpdateSchema } from "./user.validators";
-import { UserGuard } from './user.guard';
-import { UserPolicy } from './user.policy';
+import { Request } from 'express';
+import { GetUserAll } from "./user.services";
+import { Response } from 'express';
 
 @SmurfAction({
   action: '/user',
@@ -13,66 +11,34 @@ import { UserPolicy } from './user.policy';
 export class UserApi extends SmurfResponse {
 
   async run() {
-    this.data = await UserAllSrv();
+    this.result = await GetUserAll();
   }
 }
 
 @SmurfAction({
   action: '/user',
-  method: HTTP_METHODS.POST,
-  message: 'User created successfully',
-  validation: UserSchema
+  message: 'User fetched successfully',
+  method: HTTP_METHODS.POST
 })
-export class UserCreateApi extends SmurfResponse {
+export class CreateUserApi extends SmurfResponse {
 
-  async run() {
-    const { body } = this.req;
-
-    this.data = await UserCreate(body);
+  async run({ body, query }: Request) {
+    this.result = {
+      body, query
+    };
   }
 }
 
 @SmurfAction({
   action: '/user/:id',
-  message: 'User fetch successfully',
-  validation: UserByIdSchema
+  message: 'User fetched successfully',
+  method: HTTP_METHODS.PATCH
 })
-export class UserGetById extends SmurfResponse {
+export class PatchUserApi extends SmurfResponse {
 
-  async run() {
-    const { params } = this.req;
-
-    this.data = await UserById(params.id);
-  }
-}
-
-@SmurfAction({
-  action: '/user/:id',
-  method: HTTP_METHODS.PATCH,
-  message: 'User created successfully',
-  validation: UserUpdateSchema
-})
-export class UserUpdateApi extends SmurfResponse {
-
-  async run() {
-    const { body, params } = this.req;
-
-    this.data = await UserUpdate(body, params.id);
-  }
-}
-
-@SmurfAction({
-  action: '/user/middlewares',
-  method: HTTP_METHODS.POST,
-  message: 'User with guard and policy successfully',
-  guards: [UserGuard],
-  policies: [UserPolicy]
-})
-export class UserWithPolicyAndGuard extends SmurfResponse {
-
-  async run() {
-    const { body, params } = this.req;
-
-    this.data = await UserAllSrv();
+  async run({ body, query, params }: Request, { locals }: Response) {
+    this.result = {
+      body, query, params
+    };
   }
 }

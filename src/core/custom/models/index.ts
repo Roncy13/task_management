@@ -6,7 +6,7 @@ export const modelActions = [
   {
     type: 'setComponent',
     component: 'models',
-    extension: 'entity'
+    extension: 'model'
   },
   {
     type: 'add',
@@ -21,7 +21,7 @@ export const modelActions = [
   },
 ];
 export const GenerateModel = {
-  description: 'Generator For Creating Typeorm Model, Smurf',
+  description: 'Generator For Creating Your Model or Schema',
   prompts: [
     {
       type: 'input',

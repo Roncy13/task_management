@@ -11,13 +11,13 @@ export function pathDirectoryForGuard(answers: any, config: any, plop: any) {
 
 export function GuardChangeName(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}Guard`;
 }
 
 export function PolicyChangeName(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}Policy`;
 }
 

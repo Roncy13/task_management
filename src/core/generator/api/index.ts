@@ -6,7 +6,7 @@ export function ApiChangeApiData(name: string) {
 
 export function ApiChangeIndexApiName(name: string) {
   const title = StrTitleCase(name);
-  
+
   return `${title}Api`;
 }
 
