@@ -11,9 +11,9 @@ import PolicyError from '@core/policy.error';
 import GuardError from '@core/guard.error';
 import IError from '@error-handling/error.interface';
 import isEmpty from 'lodash/isEmpty';
+import flattenDeep from 'lodash/flattenDeep';
 import { StatusCodes } from "http-status-codes";
 import { checkSchema, validationResult } from "express-validator";
-import { flattenDeep } from 'lodash';
 
 dotenv.config();
 
