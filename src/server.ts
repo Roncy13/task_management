@@ -4,8 +4,6 @@ import express, { Response, Request } from "express";
 import glob from 'glob';
 import logger from '@config/logger';
 import appUse from '@config/app.use';
-import winston from 'winston';
-import expressWinston from 'express-winston';
 import ValidationError from '@core/validation.error';
 import PolicyError from '@core/policy.error';
 import GuardError from '@core/guard.error';
