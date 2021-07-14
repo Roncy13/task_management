@@ -2,7 +2,6 @@ import 'module-alias/register';
 import dotenv from "dotenv";
 import express, { Response, Request } from "express";
 import glob from 'glob';
-import bodyParser from 'body-parser';
 import logger from '@config/logger';
 import appUse from '@config/app.use';
 import winston from 'winston';
@@ -11,23 +10,21 @@ import ValidationError from '@core/validation.error';
 import PolicyError from '@core/policy.error';
 import GuardError from '@core/guard.error';
 import IError from '@error-handling/error.interface';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { StatusCodes } from "http-status-codes";
 import { checkSchema, validationResult } from "express-validator";
-import { exit } from 'shelljs';
+import { flattenDeep } from 'lodash';
 
 dotenv.config();
 
 const port = process.env.PORT || 4000;
 const app: any = express();
-const endpoints: any = [];
 const apiLocations = `${__dirname}/api/**/*.routes{.js,.ts}`;
 
-function startServer() {
-  app.listen( port, () => {
-      // tslint:disable-next-line:no-console
-      console.log( `server started at http://localhost:${ port }` );
-  } );
+const startServer = () => {
+  app.listen(port, () => {
+    logger.info(`server started at http://localhost:${ port }`)
+  });
 }
 
 const asyncHandler = (fn: typeof Function) => (req: any, res: any, next: any) => {
@@ -35,7 +32,7 @@ const asyncHandler = (fn: typeof Function) => (req: any, res: any, next: any) =>
     .catch(next)
 }
 
-function setErrorHandler() {
+const setErrorHandler = () => {
   app.use(( req: Request, res: Response, next: typeof Function) => {
     res.status(404).json({
       message: "Requested Url Not Found"
@@ -86,7 +83,7 @@ function setErrorHandler() {
   })
 }
 
-function setLogger() {
+const setLogger = () => {
   app.use(expressWinston.logger({
     transports: [
       new winston.transports.Console()
@@ -104,37 +101,46 @@ function setLogger() {
 }
 
 // Reads api directory and gets files with action.ts
-const ReadDirectories = async (file: any) => {
+const ReadDirectories = (file: any) => {
   const component = require(file);
   const classFn = Object.keys(component);
   const readFiles = classFn.map(fn => {
     const fetchComponent = component[fn];
     const apiComponent = new fetchComponent();
+    const {
+      method,
+      action,
+      validation,
+      policies,
+      guards
+    } = apiComponent;
 
-    const { method, action, validation, policies, guards } = apiComponent;
-    endpoints.push({ method, action, apiComponent: fetchComponent, validation, policies, guards });
-  })
-  await Promise.all(readFiles);
+    return {
+      method,
+      action,
+      apiComponent: fetchComponent,
+      validation,
+      policies,
+      guards
+    };
+  });
+
+  return readFiles;
 }
 
 // Function for reading the directories
 const ReadApi = async (err: any, files: string[]) => {
   if (err) {
-    // tslint:disable-next-line:no-console
-    console.log(err);
     throw new Error('Error in Reading Files');
   }
 
-  app.get( "/api", ( req: Request, res: Response ) => {
-    res.send("Hello World");
-  });
+  const apiRoutes = files.map(ReadDirectories);
+  const endpoints = flattenDeep(apiRoutes);
 
-  const getRoutes = files.map( ReadDirectories );
-
-  await Promise.all(getRoutes);
-  await Promise.all(endpoints.map((api: any) => {
-    const { method, action, apiComponent, validation = null, policies = [], guards = [] } = api;
-    const setValidation = validation === null ? (req: Request, res: Response, next: typeof Function) => next() : checkSchema(validation);
+  for (const api of endpoints) {
+    const { method, action, apiComponent, validation = null, policies = [], guards = [] } = api as any;
+    const setValidation = validation === null ?
+      (req: Request, res: Response, next: typeof Function) => next() : checkSchema(validation);
     const validationMiddleware = (req: Request, res: Response, next: any) => {
       const errors = validationResult(req).array();
 
@@ -143,14 +149,14 @@ const ReadApi = async (err: any, files: string[]) => {
           message: "Error in Validating Request",
           errors
         };
-        const errValidateFn = new ValidationError(payload);
-
-        return next(errValidateFn);
+        throw new ValidationError(payload);
       }
       next();
     }
 
-    app[method](action, ...guards.map((row: typeof Function) => asyncHandler(row)), setValidation, validationMiddleware, ...policies.map((row: typeof Function) => asyncHandler(row)),  async (req: Request, res: Response, next: any) => {
+    const guardMiddleware = guards.map((row: typeof Function) => asyncHandler(row));
+    const policyMiddleware = policies.map((row: typeof Function) => asyncHandler(row));
+    const smurfResponse = async (req: Request, res: Response, next: any) => {
       try {
         const Component = new apiComponent();
         await Component.run(req, res);
@@ -158,25 +164,46 @@ const ReadApi = async (err: any, files: string[]) => {
       } catch(err) {
         next(err);
       }
-    });
-  }));
+    };
+    const smurfMiddlewares = [
+      ...guardMiddleware,
+      setValidation,
+      validationMiddleware,
+      ...policyMiddleware,
+    ];
+    app[method](action, ...smurfMiddlewares, smurfResponse);
+  }
   setErrorHandler();
   startServer();
 }
 
-function setAppUse() {
+const setAppUse = async () => {
   // start the express server
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(express.urlencoded({ extended: false }));
 
   // parse application/json
-  app.use(bodyParser.json());
-  appUse.map(row => row.use(app))
+  app.use(express.json());
+
+  for (const row of appUse) {
+    const {
+      use,
+      name
+    } = row;
+    try {
+      await use(app);
+    } catch(err) {
+      const errMsg = `Error in ${name} App Use Settings: ${err.message || err.messages}`;
+      logger.error(errMsg);
+      throw new Error(err);
+    }
+  }
 }
 
 const MainApp = () => {
   setLogger();
-  setAppUse()
-  glob(apiLocations, ReadApi);
+  setAppUse().then(() => {
+    glob(apiLocations, ReadApi);
+  });
 }
 
 MainApp();

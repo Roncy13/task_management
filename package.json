@@ -9,11 +9,11 @@
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
     "build": "npm-run-all clean lint tsc",
-    "dev:start": "npm-run-all clean tsc start",
+    "dev:start": "./node_modules/.bin/tsc-watch --onSuccess \"npm run start\"",
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typeorm": "node --require ts-node/register -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts",
-    "dev": "./node_modules/.bin/tsc-watch --onSuccess \"npm run start\"",
+    "dev": "npm-run-all clean lint tsc dev:start",
     "smurf": "plop --plopfile src/core/generator/index.ts"
   },
   "author": "",
