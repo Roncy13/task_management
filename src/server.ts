@@ -30,6 +30,11 @@ function startServer() {
   } );
 }
 
+const asyncHandler = (fn: typeof Function) => (req: any, res: any, next: any) => {
+  return Promise.resolve(fn(req, res, next))
+    .catch(next)
+}
+
 function setErrorHandler() {
   app.use(( req: Request, res: Response, next: typeof Function) => {
     res.status(404).json({
@@ -145,7 +150,7 @@ const ReadApi = async (err: any, files: string[]) => {
       next();
     }
 
-    app[method](action, ...guards, setValidation, validationMiddleware, ...policies,  async (req: Request, res: Response, next: any) => {
+    app[method](action, ...guards.map((row: typeof Function) => asyncHandler(row)), setValidation, validationMiddleware, ...policies.map((row: typeof Function) => asyncHandler(row)),  async (req: Request, res: Response, next: any) => {
       try {
         const Component = new apiComponent();
         await Component.run(req, res);
