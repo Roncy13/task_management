@@ -7,7 +7,7 @@ import { CheckEmpty } from "@utilities/dataHelper";
 import { Schema } from "express-validator";
 
 class ISmurfOptions {
-  action: string = '/smurf';
+  action: string = '/';
   method?: HTTP_METHODS = HTTP_METHODS.GET;
   status?: StatusCodes = StatusCodes.OK;
   guards?: any[] = [];
@@ -17,18 +17,27 @@ class ISmurfOptions {
 }
 
 export default abstract class SmurfResponse extends ISmurfOptions {
-    result: any = {};
-    inputs: object;
-    query: object;
-    params: object;
+    public result: any = {};
 
     constructor(args: any) {
       super();
-      this.resetInitializers();
-      this.initializers(args);
+
+      this.assignDefaultProperties();
+      this.setProperties(args);
     }
 
-    private initializers(args: {} = {}): void {
+    private assignDefaultProperties() {
+      this.message = "";
+      this.action = "/";
+      this.status = StatusCodes.OK;
+      this.method = HTTP_METHODS.GET;
+      this.result = {};
+      this.policies = [];
+      this.guards = [];
+      this.validation = null;
+    }
+
+    private setProperties(args: {} = {}): void {
       const keys = Object.keys(args);
 
       keys.forEach(r => {
@@ -40,24 +49,10 @@ export default abstract class SmurfResponse extends ISmurfOptions {
 
     abstract run(request: Request, response: Response): Promise<void>;
 
-    public resetInitializers() {
-      this.message = "";
-      this.action = "/";
-      this.status = StatusCodes.OK;
-      this.method = HTTP_METHODS.GET;
-      this.inputs = {};
-      this.query = {};
-      this.params = {};
-      this.result = {};
-      this.policies = [];
-      this.guards = [];
-      this.validation = null;
-    }
-
-    response(req: Request, resp: Response): Response {
+    public response(req: Request, resp: Response): Response {
       const { result = {}, message, status } = this;
 
-      if (CheckEmpty(resp) && CheckEmpty(req)) {
+      if (CheckEmpty(resp) || CheckEmpty(req)) {
         throw new Error('Response and Request are not set');
       }
 
