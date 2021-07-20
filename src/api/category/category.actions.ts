@@ -1,11 +1,11 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
 import { HTTP_METHODS } from "@utilities/constants";
-
-
+import { CategoryPolicy } from './category.policy';
 
 @SmurfAction({
   action: '/category',
   message: 'Category fetched successfully',
+  policies: [CategoryPolicy]
 })
 export class CategoryApi extends SmurfResponse {
 

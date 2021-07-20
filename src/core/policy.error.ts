@@ -7,7 +7,7 @@ export default class PolicyError extends Error {
   statusCode: number = StatusCodes.CONFLICT;
 
   constructor (params: IPolicy) {
-    super(params.message)
+    super(params.message || '')
 
     // assign the error class name in your custom error (as a shortcut)
     this.errorParams = params;
