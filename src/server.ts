@@ -159,6 +159,7 @@ const ReadApi = async (err: any, files: string[]) => {
       try {
         const Component = new apiComponent();
         await Component.run(req, res);
+
         return Component.response(req, res);
       } catch (err) {
         next(err);

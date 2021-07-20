@@ -19,8 +19,6 @@ export class CategoryGetByIdApi extends SmurfResponse {
 
   async run() {
 
-
-
     this.result = 'index api for Category';
   }
 }

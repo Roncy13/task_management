@@ -1,7 +1,6 @@
 import { createClient } from 'redis'
 const client = createClient();
 
-
 export function setRedis(key: string, value: any) {
   return client.set(key,JSON.stringify(value));
 }

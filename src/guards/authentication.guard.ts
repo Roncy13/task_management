@@ -11,6 +11,7 @@ const checkEncodedToken = (token: string) => {
   }
 
   const decoded = verify(token, process.env.SECRET_KEY);
+
   return decoded
 }
 

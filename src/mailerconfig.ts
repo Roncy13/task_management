@@ -19,4 +19,3 @@ export = {
   maxMessages: 100,
   rateLimit: 10
 }
-

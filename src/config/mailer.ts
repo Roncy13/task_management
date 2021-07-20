@@ -21,8 +21,7 @@ class GMailService {
     this._transporter = createTransport( mailerconfig as TransportOptions );
   }
 
-  async sendMail(to: string, subject: string, html: string)
-  {
+  async sendMail(to: string, subject: string, html: string) {
     const config: any = mailerconfig
     const options: ISendMailOptions = {
       from: config.auth.user,
@@ -32,10 +31,10 @@ class GMailService {
     }
 
     const res = await this._transporter.sendMail(options)
-    return res
+
+    return res;
   }
 
 }
 
 export default new GMailService()
-

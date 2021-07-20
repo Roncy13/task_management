@@ -65,7 +65,7 @@ export default abstract class SmurfResponse extends ISmurfOptions {
 }
 
 export function SmurfAction(options: ISmurfOptions) {
-  return function _DecoratorName<T extends new(...args: any[]) => {}>(constr: T){
+  return function _DecoratorName<T extends new(...args: any[]) => {}>(constr: T) {
     return class extends constr {
       constructor(...args: any[]) {
         super({...args, ...options})

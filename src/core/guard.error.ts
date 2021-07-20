@@ -6,7 +6,7 @@ export default class GuardError extends Error {
   errorParams: IError;
   statusCode: number = StatusCodes.FORBIDDEN;
 
-  constructor (params : IPolicy) {
+  constructor (params: IPolicy) {
     super(params.message)
     // assign the error class name in your custom error (as a shortcut)
     this.errorParams = params;
