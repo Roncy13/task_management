@@ -29,11 +29,6 @@
       "lib": ["dom", "es5", "es6", "es7"],
       "allowSyntheticDefaultImports": true,
   },
-  "include": [
-      "src/**/*",
-      "src/**/*/*",
-      "src/*",
-  ],
   "exclude": [
     "src/core",
     "dist/",

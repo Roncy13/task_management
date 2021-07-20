@@ -6,7 +6,7 @@
   "mainDir": "dist",
   "scripts": {
     "clean": "rimraf dist/*",
-    "lint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "lint": "tslint --fix -c tslint.json -p tsconfig.json",
     "tsc": "tsc",
     "build": "npm-run-all clean lint tsc",
     "dev:start": "./node_modules/.bin/tsc-watch --onSuccess \"npm run start\"",
@@ -18,6 +18,11 @@
   },
   "author": "",
   "license": "ISC",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/cors": "^2.8.9",

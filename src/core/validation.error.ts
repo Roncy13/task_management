@@ -8,8 +8,6 @@ export default class ValidationError extends Error {
   constructor (params : IError) {
     super(params.message)
 
-    console.log(params);
-
     // assign the error class name in your custom error (as a shortcut)
     this.name = this.constructor.name
     this.errorParams = params;
