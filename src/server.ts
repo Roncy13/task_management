@@ -160,7 +160,7 @@ const ReadApi = async (err: any, files: string[]) => {
         const Component = new apiComponent();
         await Component.run(req, res);
         return Component.response(req, res);
-      } catch(err) {
+      } catch (err) {
         next(err);
       }
     };
@@ -189,7 +189,7 @@ const setAppUse = async () => {
     } = row;
     try {
       await use(app);
-    } catch(err) {
+    } catch (err) {
       const errMsg = `Error in ${name} App Use Settings: ${err.message || err.messages}`;
       logger.error(errMsg);
       throw new Error(err);

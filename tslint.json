@@ -9,7 +9,8 @@
       "max-classes-per-file": [false],
       "no-console": true,
       "indent": [true, "spaces", 2],
-      "no-trailing-whitespace": true
+      "one-line": false,
+      "whitespace": [false, "check-branch", "check-operator", "check-typecast"]
   },
   "rulesDirectory": []
 }

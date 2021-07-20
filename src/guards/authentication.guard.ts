@@ -6,7 +6,7 @@ import { verify } from 'jsonwebtoken'
 
 const checkEncodedToken = (token: string) => {
   const arrayToken = token.split('.')
-  if(arrayToken.length !== 3) {
+  if (arrayToken.length !== 3) {
     return false
   }
 
@@ -18,12 +18,12 @@ const checkToken = (authorization: string) => {
   const token = authorization.split(' ')
   const headerPrefix = token[0]
   const accessToken = token[1]
-  if(headerPrefix !== 'JWT') {
+  if (headerPrefix !== 'JWT') {
     return false
   }
 
   const decodedToken = checkEncodedToken(accessToken)
-  if(!decodedToken) {
+  if (!decodedToken) {
     return false
   }
 
@@ -45,7 +45,7 @@ export default  (req: Request, res: Response, next: any) => {
 
   const { authorization } = req.headers
   const verifyToken: any = checkToken(authorization)
-  if(!verifyToken) {
+  if (!verifyToken) {
     next(guardErr);
   }
 
