@@ -1,4 +1,7 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
+import { HTTP_METHODS } from "@utilities/constants";
+
+
 
 @SmurfAction({
   action: '/category',
@@ -16,6 +19,19 @@ export class CategoryApi extends SmurfResponse {
   message: 'Category fetched successfully',
 })
 export class CategoryGetByIdApi extends SmurfResponse {
+
+  async run() {
+
+    this.result = 'index api for Category';
+  }
+}
+
+@SmurfAction({
+  action: '/category/:id',
+  message: 'Category updated successfully',
+  method: HTTP_METHODS.PUT
+})
+export class CategoryUpdateIdApi extends SmurfResponse {
 
   async run() {
 
