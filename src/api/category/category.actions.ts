@@ -8,5 +8,6 @@ export class CategoryApi extends SmurfResponse {
 
   async run() {
     this.result = 'index api for Category';
+
   }
 }

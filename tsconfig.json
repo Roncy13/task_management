@@ -31,8 +31,10 @@
   },
   "exclude": [
     "src/core",
-    "dist/",
-    "migrations/*",
+    "dist",
+    "node_modules",
+    "smurf_templates",
+    "migrations",
     "./*.json",
     "./*.md"
   ]
