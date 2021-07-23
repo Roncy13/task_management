@@ -51,12 +51,11 @@ const setErrorHandler = () => {
         statusCode,
       })
     } else if (err instanceof PolicyError) {
-      const { message } = err.errorParams;
+      const { message = '' } = err.errorParams;
       const { statusCode, name } = err;
 
       return res.status(statusCode).json({
         message,
-        policy: `${name}: ${message}`,
         statusCode,
         name
       });
@@ -173,6 +172,8 @@ const ReadApi = async (err: any, files: string[]) => {
     ];
     app[method](action, ...smurfMiddlewares, smurfResponse);
   }
+
+  setErrorHandler();
   startServer();
 }
 
@@ -199,9 +200,8 @@ const setAppUse = async () => {
 }
 
 const MainApp = () => {
-  setAppUse().then(() => {
-    setErrorHandler();
-    glob(apiLocations, ReadApi);
+  setAppUse().then(async () => {
+    await glob(apiLocations, ReadApi);
   });
 }
 
