@@ -20,7 +20,6 @@ const getFilterQuery = ({
     title,
     ...params
   } = query
-  console.log(params, query, 'qweeqwee')
   return {
     ...params,
     filter: {
@@ -56,7 +55,6 @@ export class ListAllTasksApi extends SmurfResponse {
     const params = getFilterQuery(req)
 
     this.result = await getAllTaskSrv(params)
-    console.log(params, ' params ')
   }
 }
 

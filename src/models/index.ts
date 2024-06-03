@@ -9,9 +9,11 @@ export interface IStatement {
 }
 export class DatabaseModel {
   static mapParameters (parameters: IParameter = {}) {
-    return Object.keys(parameters).reduce((acc, val) => {
+    const result =  Object.keys(parameters).reduce((acc, val) => {
       return parameters?.[val] ? {...acc, [`$${val}`]: parameters[val]} : acc
     }, {})
+
+    console.log(result, ' result ')
   }
 
   static async all<T>(qry: string, parameters: IParameter = {}) {

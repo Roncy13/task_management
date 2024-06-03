@@ -4,13 +4,13 @@ import { EPageSort, TASK_LIMIT } from "./tasks.enums";
 
 const queryTaskFilters = (filter: ITaskListFilter, prepend: string[] = []) => {
 	const stmts = []
-
+	console.log('fiter', filter);
 	if (prepend.length > 0) {
 		prepend.forEach(p => stmts.push(p))
 	}
 
 	if (filter?.title) {
-		stmts.push(`t.title LIKE '%$title%'`)
+		stmts.push(`INSTR(lower(t.title), $title)`)
 	}
 
 	if (filter?.status) {
@@ -73,7 +73,7 @@ export const getAllTasksByUserIdCountModel = async (userId: number, query: ITask
 		INNER JOIN users as u
 			ON u.id = t.user_id
 		${taskFilters}
-	`, { userId, title: query?.filter?.title })
+	`, { userId, ...query.filter })
 
 	return result as ITaskCount;
 }
@@ -97,9 +97,8 @@ export const getAllTasksModel = async (query: ITaskList, totalCount: number) => 
 	${pagination}
 	${sort}
 	`
-	console.log(findQuery, ' find query ')
 	const result = await DatabaseModel.all<ITaskOutput>(findQuery, {
-		...query.filter
+		title: 'james 1'
 	})
 	
 	return result;
@@ -115,9 +114,8 @@ export const getAllTasksCountModel = async (query: ITaskList) => {
 			ON u.id = t.user_id
 		${taskFilters}
 	`
-	const result = await DatabaseModel.get<ITaskCount>(findQuery, {...query.filter})
-	console.log(findQuery, 'findQuery')
-	console.log(result, ' result ')
+	const result = await DatabaseModel.get<ITaskCount>(findQuery, { title: 'james 1' })
+
 	return result as ITaskCount;
 }
 
