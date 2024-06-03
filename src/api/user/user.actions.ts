@@ -5,13 +5,15 @@ import { CredentialsSchema, ParamUserIdSchema, UpdateUserSchema, UserSchema } fr
 import { Request } from "express";
 import { IUser, TLogin } from "./user.interface";
 import AuthGuard from "@guards/authentication.guard";
+import { AdminRolePolicy, CheckCreateUserEmailPolicy, CheckUpdateUserEmailPolicy } from "./user.policy";
 
 @SmurfAction({
   action: '/users',
   message: 'Users fetched successfully',
   guards: [
     AuthGuard
-  ]
+  ],
+  policies: [AdminRolePolicy]
 })
 export class GetUsersApi extends SmurfResponse {
 
@@ -26,7 +28,8 @@ export class GetUsersApi extends SmurfResponse {
   validation: ParamUserIdSchema,
   guards: [
     AuthGuard
-  ]
+  ],
+  policies: [AdminRolePolicy]
 })
 export class GetUserApi extends SmurfResponse {
 
@@ -44,7 +47,8 @@ export class GetUserApi extends SmurfResponse {
   validation: UserSchema,
   guards: [
     AuthGuard
-  ]
+  ],
+  policies: [AdminRolePolicy, CheckCreateUserEmailPolicy]
 })
 export class CreateUserApi extends SmurfResponse {
 
@@ -62,7 +66,8 @@ export class CreateUserApi extends SmurfResponse {
   validation: UpdateUserSchema,
   guards: [
     AuthGuard
-  ]
+  ],
+  policies: [AdminRolePolicy, CheckUpdateUserEmailPolicy]
 })
 export class UpdateUserApi extends SmurfResponse {
 
@@ -81,7 +86,8 @@ export class UpdateUserApi extends SmurfResponse {
   validation: ParamUserIdSchema,
   guards: [
     AuthGuard
-  ]
+  ],
+  policies: [AdminRolePolicy]
 })
 export class DeleteUserApi extends SmurfResponse {
 
@@ -102,7 +108,6 @@ export class DeleteUserApi extends SmurfResponse {
   ]
 })
 export class UserLoginApi extends SmurfResponse {
-
   async run(req: Request) {
     const body = req.body as unknown as TLogin
      

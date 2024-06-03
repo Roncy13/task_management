@@ -11,7 +11,8 @@ export const getAllUserModel = async () => {
 			id,
       name,
 			email,
-      password
+      password,
+      role
 		FROM users
 	`)
 
@@ -24,7 +25,8 @@ export const getUserModel = async (id: number): Promise<IUser> => {
       id,
       name,
       email,
-      password
+      password,
+      role
     FROM users
 		WHERE
       id = $id
@@ -87,7 +89,8 @@ export const checkUserEmailPasswordModel = async (payload: ICredentials) => {
       id,
       name,
       email,
-      password
+      password,
+      role
     FROM users
     WHERE
       email = $email AND
@@ -97,5 +100,24 @@ export const checkUserEmailPasswordModel = async (payload: ICredentials) => {
 		{ ...payload }
 	);
 
-	return result
+	return result as IUser
+}
+
+export const checkUserByEmailModel = async (email: string) => {
+  const result = await DatabaseModel.get<IUser | null>(`
+    SELECT
+      id,
+      name,
+      email,
+      password,
+      role
+    FROM users
+    WHERE
+      email = $email
+    LIMIT 1
+		`,
+		{ email }
+	);
+
+	return result as IUser
 }

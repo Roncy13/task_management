@@ -43,7 +43,6 @@ export const CheckTaskPolicy = async (req: Request, res: ITaskResponse, next: Ne
 
 export const CheckTaskUserPolicy = async (req: Request, res: ITaskResponse, next: NextFunction) => {
   const { task, user } = res.locals
-  console.log('dsada')
   if (task.task_user_id !== user.id) {
     throw new PolicyError({
       message: 'You are not allowed to create/update/delete/view this task',

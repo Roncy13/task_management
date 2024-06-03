@@ -1,6 +1,6 @@
 import { Response } from "express"
+import { IUserLocalReponse } from "../user/user.interface"
 import { ETaskStatus } from "./tasks.enums"
-import { IUser } from "../user/user.interface"
 export interface ITask {
   id: number
   title: string
@@ -23,9 +23,10 @@ export interface ITaskById {
 }
 
 export type TCreateTask = Omit<ITask, 'id'>
+
+interface ITasKLocals extends Pick<Response, 'locals'> {
+  task: ITaskOutput
+}
 export interface ITaskResponse extends Response {
-  locals: {
-    user: IUser,
-    task: ITaskOutput
-  }
+  locals: ITasKLocals & IUserLocalReponse
 }

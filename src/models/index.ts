@@ -76,7 +76,6 @@ export class DatabaseModel {
 
   static async delete<T>(qry:string, parameters:IParameter = null) {
     try {
-      console.log('delete delete')
       const result = await this.execute(qry, parameters) as IStatement
       
       return result
@@ -88,7 +87,6 @@ export class DatabaseModel {
 
   static async execute<T>(qry: string, parameters: IParameter = {}) {
     const payload = this.mapParameters(parameters)
-    console.log(payload, 'payload')
     const result = await new Promise((resolve, reject) => {
       db.run(qry, payload, function (err: Error) {
         if (err) {
@@ -98,7 +96,6 @@ export class DatabaseModel {
       })
     })
 
-    console.log(result, 'result')
     return result
   }
 }

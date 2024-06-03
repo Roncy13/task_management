@@ -2,9 +2,9 @@ import { db } from '@config/connection';
 
 export default async function  migrations() {
   await db.exec(`
-    INSERT INTO users(name, email, password) values ('james1', 'jamesroncy13+1@gmail.com', 'james');
-    INSERT INTO users(name, email, password) values ('james2', 'jamesroncy13+2@gmail.com', 'james');
-    INSERT INTO users(name, email, password) values ('james3', 'jamesroncy13+3@gmail.com', 'james');
+    INSERT INTO users(name, email, password, role) values ('james1', 'jamesroncy13+1@gmail.com', 'james', 'admin');
+    INSERT INTO users(name, email, password, role) values ('james2', 'jamesroncy13+2@gmail.com', 'james', 'admin');
+    INSERT INTO users(name, email, password, role) values ('james3', 'jamesroncy13+3@gmail.com', 'james', 'admin');
   `);
 
   await db.exec(`

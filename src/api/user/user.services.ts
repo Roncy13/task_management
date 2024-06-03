@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty"
 import { ICredentials, IUser, TCreateUser } from "./user.interface"
-import { checkUserEmailPasswordModel, createUserModel, deleteUserModel, getAllUserModel, getUserModel, updateUserModel } from "./user.model"
+import { checkUserByEmailModel, checkUserEmailPasswordModel, createUserModel, deleteUserModel, getAllUserModel, getUserModel, updateUserModel } from "./user.model"
 import jwt from 'jsonwebtoken';
 import BadRequestException from '@core/badrequest.error';
 import { getSecretKey } from "@utilities/dataHelper";
@@ -44,6 +44,12 @@ export const userLoginSrv = async(payload: ICredentials) => {
     throw new BadRequestException('Incorrect email/password')
   }
   const result = jwt.sign({ ...user as IUser, password: undefined }, getSecretKey(), { expiresIn: '1d'});
+
+  return result
+}
+
+export const checkUserByEmailSrv = async (email: string) => {
+  const result = await checkUserByEmailModel(email)
 
   return result
 }
