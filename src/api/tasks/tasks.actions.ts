@@ -1,9 +1,9 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
-import { createTaskSrv, getAllTaskSrv, updateTaskSrv } from "./tasks.services";
+import { createTaskSrv, deleteTaskSrv, getAllTaskSrv, updateTaskSrv } from "./tasks.services";
 import { HTTP_METHODS } from "@utilities/constants";
-import { TasksSchema, UpdateTaskSchema } from "./tasks.validators";
+import { DeleteTaskSchema, TasksSchema, UpdateTaskSchema } from "./tasks.validators";
 import { Request } from "express";
-import { TCreateTask, TUpdateTask } from "./tasks.interface";
+import { ITaskById, TCreateTask, TUpdateTask } from "./tasks.interface";
 
 @SmurfAction({
   action: '/tasks',
@@ -43,5 +43,21 @@ export class UpdateTaskApi extends SmurfResponse {
     Object.assign(payload, { user_id: 2 })
     console.log(payload, 'payload')
     this.result = await updateTaskSrv(payload)
+  }
+}
+
+@SmurfAction({
+  action: '/task/:id',
+  message: 'Tasks deleted successfully',
+  method: HTTP_METHODS.DELETE,
+  validation: DeleteTaskSchema
+})
+export class DeleteTaskApi extends SmurfResponse {
+  async run(req: Request) {
+    const { params } = req
+   
+    const payload = Object.assign({}, { ...params }) as unknown as ITaskById
+    Object.assign(payload, { userId: 2 })
+    this.result = await deleteTaskSrv(payload)
   }
 }

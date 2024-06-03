@@ -75,8 +75,9 @@ export class DatabaseModel {
     }
   }
 
-  static async delete<T>(qry: string, parameters:IParameter = null) {
+  static async delete<T>(qry:string, parameters:IParameter = null) {
     try {
+      console.log('delete delete')
       const result = await this.execute(qry, parameters) as IStatement
       
       return result

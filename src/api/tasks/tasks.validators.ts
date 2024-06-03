@@ -63,3 +63,7 @@ export const UpdateTaskSchema: Schema = {
   ...TasksSchema,
   ...PathTaskIdSchema,
 };
+
+export const DeleteTaskSchema: Schema = {
+  ...PathTaskIdSchema
+};

@@ -14,7 +14,7 @@ export interface ITaskOutput {
 	task_user_id: number
 }
 
-export interface IGetTask {
+export interface ITaskById {
   userId: number
   id: number
 }

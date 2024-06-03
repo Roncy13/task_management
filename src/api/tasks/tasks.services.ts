@@ -1,5 +1,6 @@
-import { ITask, TCreateTask, TUpdateTask } from "./tasks.interface"
-import { createTaskModel, getAllTasksModel, updateTaskModel } from "./tasks.model"
+import isEmpty from "lodash/isEmpty"
+import { ITask, ITaskById, TCreateTask, TUpdateTask } from "./tasks.interface"
+import { createTaskModel, deleteTaskModel, getAllTasksModel, getTasksModel, updateTaskModel } from "./tasks.model"
 
 export const getAllTaskSrv = async (userId: number) => {
   const result = await getAllTasksModel(userId)
@@ -14,7 +15,14 @@ export const createTaskSrv = async (payload: TCreateTask) => {
 }
 
 export const updateTaskSrv = async (payload: TUpdateTask) => {
-  const result = await updateTaskModel(payload) as ITask
+  const result = await updateTaskModel(payload)
 
   return result
+}
+
+export const deleteTaskSrv = async(payload: ITaskById) => {
+  await deleteTaskModel(payload)
+  const result = await getTasksModel(payload)
+
+  return isEmpty(result) ? null : result
 }
