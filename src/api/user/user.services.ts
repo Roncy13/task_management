@@ -35,7 +35,7 @@ export const deleteUserSrv = async(id: number) => {
 export const getUserSrv = async(id: number) => {
   const result = await getUserModel(id)
 
-  return isEmpty(result) ? null : result
+  return result
 }
 
 export const userLoginSrv = async(payload: ICredentials) => {

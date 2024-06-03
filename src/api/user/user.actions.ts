@@ -5,7 +5,22 @@ import { CredentialsSchema, ParamUserIdSchema, UpdateUserSchema, UserSchema } fr
 import { Request } from "express";
 import { IUser, TLogin } from "./user.interface";
 import AuthGuard from "@guards/authentication.guard";
-import { AdminRolePolicy, CheckCreateUserEmailPolicy, CheckUpdateUserEmailPolicy } from "./user.policy";
+import { AdminRolePolicy, CheckCreateUserEmailPolicy, CheckUpdateUserEmailPolicy, NotAllowAdminToDeleteUser } from "./user.policy";
+
+/**
+ * API: users/Get All Users
+ * Response:
+ *    id: number
+ *    name: string
+ *    email: string
+ *    password: string
+ *    role: string
+ * Payload:
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Role:
+ *  admin
+ */
 
 @SmurfAction({
   action: '/users',
@@ -21,6 +36,23 @@ export class GetUsersApi extends SmurfResponse {
     this.result = await getAllUsersSrv()
   }
 }
+
+/**
+ * API: users/Get User
+ * Response:
+ *    id: number
+ *    name: string
+ *    email: string
+ *    password: string
+ *    role: string
+ * Payload:
+ *  Params:
+ *    id: number
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Role:
+ *  admin
+ */
 
 @SmurfAction({
   action: '/user/:id',
@@ -40,6 +72,28 @@ export class GetUserApi extends SmurfResponse {
   }
 }
 
+/**
+ * API: users/Create User
+ * Response:
+ *    id: number
+ *    name: string
+ *    email: string
+ *    password: string
+ *    role: string
+ * Payload:
+ *  Body:
+ *    name: string!
+ *    email: string!
+ *    password: string!
+ *    role: string!
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Role:
+ *  admin
+ * Policy:
+ *  email should not exist
+ */
+
 @SmurfAction({
   action: '/user',
   message: 'User created successfully',
@@ -58,6 +112,28 @@ export class CreateUserApi extends SmurfResponse {
     this.result = await createUserSrv(body)
   }
 }
+
+/**
+ * API: users/Update User
+ * Response:
+ *    id: number
+ *    name: string
+ *    email: string
+ *    password: string
+ *    role: string
+ * Payload:
+ *  Body:
+ *    name: string!
+ *    email: string!
+ *    password: string!
+ *    role: string!
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Role:
+ *  admin
+ * Policy:
+ *  email should not exist on other record
+ */
 
 @SmurfAction({
   action: '/user/:id',
@@ -79,6 +155,28 @@ export class UpdateUserApi extends SmurfResponse {
   }
 }
 
+/**
+ * API: users/Delete User
+ * Response:
+ *    id: number
+ *    name: string
+ *    email: string
+ *    password: string
+ *    role: string
+ * Payload:
+ *  Body:
+ *    name: string!
+ *    email: string!
+ *    password: string!
+ *    role: string!
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Role:
+ *  admin
+ * Policy:
+ *  Admin Role cannot be deleted
+ */
+
 @SmurfAction({
   action: '/user/:id',
   message: 'User deleted successfully',
@@ -87,7 +185,7 @@ export class UpdateUserApi extends SmurfResponse {
   guards: [
     AuthGuard
   ],
-  policies: [AdminRolePolicy]
+  policies: [AdminRolePolicy, NotAllowAdminToDeleteUser]
 })
 export class DeleteUserApi extends SmurfResponse {
 
@@ -97,6 +195,16 @@ export class DeleteUserApi extends SmurfResponse {
     this.result = await deleteUserSrv(id)
   }
 }
+
+/**
+ * API: auth/User Login
+ * Response:
+ *    result: string
+ * Payload:
+ *  Body:
+ *    email: string!
+ *    password: string!
+ */
 
 @SmurfAction({
   action: '/user/login',

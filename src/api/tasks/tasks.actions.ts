@@ -13,6 +13,18 @@ import { DeleteTaskSchema, PathTaskIdSchema, TasksSchema, UpdateTaskSchema } fro
 
 const [TasksUserPolicy] = TaskPolicies
 // This is to see all task and to check filters per login to /tasks api
+
+/**
+ * API: tasks/View All Task Regardless of the users
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ *    user_name: string
+ * Payload:
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ */
 @SmurfAction({
   action: '/tasks/all',
   message: 'Tasks fetched successfully',
@@ -25,6 +37,20 @@ export class ListAllTasksApi extends SmurfResponse {
     this.result = await getAllTaskSrv();
   }
 }
+
+/**
+ * API: tasks/Get All Task
+ * Response:
+ *    task_id: number
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ *    user_name: string
+ * Payload:
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ */
 @SmurfAction({
   action: '/tasks',
   message: 'Tasks fetched successfully',
@@ -37,6 +63,23 @@ export class ListTasksApi extends SmurfResponse {
     this.result = await getAllTasksByUserIdModel(user.id);
   }
 }
+
+/**
+ * API: tasks/Create Task
+ * Response:
+ *    task_id: number
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ * Payload:
+ *  Body
+ *    title: string
+ *    description string
+ *    status: string
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ */
 
 @SmurfAction({
   action: '/task',
@@ -58,6 +101,28 @@ export class CreateTaskApi extends SmurfResponse {
   }
 }
 
+/**
+ * API: tasks/Update Task
+ * Response:
+ *    task_id: number
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ * Payload:
+  *  Body
+  *    title: string
+  *    description string
+  *    status: string
+  *   Params
+  *    id: number
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Policies:
+ *  Task should exist
+ *  Task user id should be equal to auth user id
+ */
+
 @SmurfAction({
   action: '/task/:id',
   message: 'Tasks updated successfully',
@@ -77,6 +142,28 @@ export class UpdateTaskApi extends SmurfResponse {
   }
 }
 
+/**
+ * API: tasks/Delete Task
+ * Response:
+ *    task_id: number
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ * Payload:
+  *  Body
+  *    title: string
+  *    description string
+  *    status: string
+  *   Params
+  *    id: number
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Policies:
+ *  Task should exist
+ *  Task user id should be equal to auth user id
+ */
+
 @SmurfAction({
   action: '/task/:id',
   message: 'Tasks deleted successfully',
@@ -95,6 +182,24 @@ export class DeleteTaskApi extends SmurfResponse {
     this.result = await deleteTaskSrv(payload)
   }
 }
+
+/**
+ * API: tasks/Get Task
+ * Response:
+ *    task_id: number
+ *    task_title: string
+ *    task_description string
+ *    task_status: string
+ *    task_user_id: number
+ * Payload:
+  *   Params
+  *    id: number
+ * Auth:
+ *  Authorization: Bearer {{Token}}
+ * Policies:
+ *  Task should exist
+ *  Task user id should be equal to auth user id
+ */
 
 @SmurfAction({
   action: '/task/:id',
