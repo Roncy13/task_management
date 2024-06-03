@@ -1,15 +1,20 @@
-import { getAllTasks } from "./tasks.model"
+import { ITask, TCreateTask, TUpdateTask } from "./tasks.interface"
+import { createTaskModel, getAllTasksModel, updateTaskModel } from "./tasks.model"
 
-/**
- * For Typeorm use
- * import { GetConnection } from '@config/database';
- * const model = GetConnection( Put Your Typeorm Schema Here);
- * export function TasksAllSrv() {
- *   return model.find();
- * }
- */
-export const getAllTaskSrv = async () => {
-  const result = await getAllTasks();
+export const getAllTaskSrv = async (userId: number) => {
+  const result = await getAllTasksModel(userId)
 
-  return result;
+  return result
+}
+
+export const createTaskSrv = async (payload: TCreateTask) => {
+  const result = await createTaskModel(payload)
+
+  return result
+}
+
+export const updateTaskSrv = async (payload: TUpdateTask) => {
+  const result = await updateTaskModel(payload) as ITask
+
+  return result
 }

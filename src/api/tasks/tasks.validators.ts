@@ -1,5 +1,6 @@
-import { inBody } from '@utilities/constants';
+import { inBody, inQuery, inParam } from '@utilities/constants';
 import { Schema }  from 'express-validator';
+import { ETaskStatus } from './tasks.enums';
 
 /**
  * Change the [sampleFieldName] to the property you are using.
@@ -8,14 +9,57 @@ import { Schema }  from 'express-validator';
  */
 
 export const TasksSchema: Schema = {
-  sampleFieldName: {
+  title: {
     ...inBody,
-    isLength: {
-      errorMessage: 'Field Name should be not less than 1 and not greater than 50 characters',
-      options: {
-        min: 1,
-        max: 50,
-      }
+    notEmpty: {
+      errorMessage: 'Title is required'
     }
-  }
+  },
+  status: {
+    ...inBody,
+    notEmpty: {
+      errorMessage: 'Status is required'
+    },
+    isIn: {
+      options: [Object.values(ETaskStatus)]
+    }
+  },
+  description: {
+    ...inBody,
+    notEmpty: {
+      errorMessage: 'Description is required'
+    }
+  },
+};
+
+export const BodyTaskIdSchema: Schema = {
+  id: {
+    ...inBody,
+    notEmpty: {
+      errorMessage: 'id is required'
+    }
+  },
+}
+
+export const QueryTaskIdSchema: Schema = {
+  id: {
+    ...inQuery,
+    notEmpty: {
+      errorMessage: 'id is required'
+    }
+  },
+}
+
+export const PathTaskIdSchema: Schema = {
+  id: {
+    ...inParam,
+    notEmpty: {
+      errorMessage: 'id is required'
+    }
+  },
+}
+
+export const UpdateTaskSchema: Schema = {
+  ...TasksSchema,
+  ...PathTaskIdSchema,
 };
