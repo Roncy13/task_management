@@ -1,17 +1,35 @@
-import SmurfResponse, { SmurfAction } from "@core/response";
-import AuthGuard from "@guards/authentication.guard";
-import { HTTP_METHODS } from "@utilities/constants";
-import { Request } from "express";
-import { ITask, ITaskById, ITaskResponse, TCreateTask } from "./tasks.interface";
-import { getAllTasksByUserIdModel } from "./tasks.model";
+import SmurfResponse, { SmurfAction } from '@core/response'
+import AuthGuard from '@guards/authentication.guard'
+import { HTTP_METHODS } from '@utilities/constants'
+import { Request } from 'express'
+import { ITask, ITaskById, ITaskList, ITaskResponse, TCreateTask } from './tasks.interface'
 import {
   TaskPolicies
-} from "./tasks.policy";
-import { createTaskSrv, deleteTaskSrv, getAllTaskSrv, getTaskSrv, updateTaskSrv } from "./tasks.services";
-import { DeleteTaskSchema, PathTaskIdSchema, TasksSchema, UpdateTaskSchema } from "./tasks.validators";
+} from './tasks.policy'
+import { createTaskSrv, deleteTaskSrv, getAllTaskByUserIdSrv, getAllTaskSrv, getTaskSrv, updateTaskSrv } from './tasks.services'
+import { DeleteTaskSchema, PathTaskIdSchema, TaskListSchema, TasksSchema, UpdateTaskSchema } from './tasks.validators'
 
 
 const [TasksUserPolicy] = TaskPolicies
+const getFilterQuery = ({
+  query
+}: Request) => {
+  const {
+    email,
+    status,
+    title,
+    ...params
+  } = query
+
+  return {
+    ...params,
+    filter: {
+      email,
+      status,
+      title,
+    }
+  } as ITaskList
+}
 // This is to see all task and to check filters per login to /tasks api
 
 /**
@@ -31,10 +49,14 @@ const [TasksUserPolicy] = TaskPolicies
   guards: [
     AuthGuard
   ],
+  validation: TaskListSchema
 })
 export class ListAllTasksApi extends SmurfResponse {
-  async run() {
-    this.result = await getAllTaskSrv();
+  async run(req: Request) {
+    const params = getFilterQuery(req)
+
+    this.result = await getAllTaskSrv(params)
+    console.log(params, ' params ')
   }
 }
 
@@ -59,8 +81,8 @@ export class ListAllTasksApi extends SmurfResponse {
   ],
 })
 export class ListTasksApi extends SmurfResponse {
-  async run(_req: Request, { locals: { user } }: ITaskResponse) {
-    this.result = await getAllTasksByUserIdModel(user.id);
+  async run(req: Request, { locals: { user } }: ITaskResponse) {
+    this.result = await getAllTaskByUserIdSrv(user.id, req.query as ITaskList)
   }
 }
 

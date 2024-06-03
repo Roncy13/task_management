@@ -1,6 +1,6 @@
 import { inBody, inQuery, inParam } from '@utilities/constants';
 import { Schema }  from 'express-validator';
-import { ETaskStatus } from './tasks.enums';
+import { EPageSort, ETaskStatus } from './tasks.enums';
 
 /**
  * Change the [sampleFieldName] to the property you are using.
@@ -60,3 +60,23 @@ export const UpdateTaskSchema: Schema = {
 export const DeleteTaskSchema: Schema = {
   ...PathTaskIdSchema
 };
+
+export const TaskListSchema: Schema = {
+  page: {
+    ...inQuery,
+    optional: true,
+    isInt: {
+      errorMessage: 'Page should be a number',
+      options: {
+        min: 0
+      }
+    },
+  },
+  sort: {
+    ...inQuery,
+    optional: true,
+    isIn: {
+      options: [Object.values(EPageSort)]
+    }
+  }
+}

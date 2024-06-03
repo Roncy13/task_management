@@ -1,6 +1,6 @@
 import { Response } from "express"
 import { IUserLocalReponse } from "../user/user.interface"
-import { ETaskStatus } from "./tasks.enums"
+import { EPageSort, ETaskStatus } from "./tasks.enums"
 export interface ITask {
   id: number
   title: string
@@ -29,4 +29,19 @@ interface ITasKLocals extends Pick<Response, 'locals'> {
 }
 export interface ITaskResponse extends Response {
   locals: ITasKLocals & IUserLocalReponse
+}
+export interface ITaskListFilter {
+  title?: string
+  user?: string
+  status?: string
+}
+export interface ITaskList {
+  page?: number
+  sort?: EPageSort
+  filter?: ITaskListFilter
+  limit?: number
+}
+
+export interface ITaskCount {
+  total: number
 }

@@ -1,16 +1,47 @@
-import { ITask, ITaskById, TCreateTask } from "./tasks.interface"
-import { createTaskModel, deleteTaskModel, getAllTasksByUserIdModel, getAllTasksModel, getTaskByIdModel, getTasksModel, updateTaskModel } from "./tasks.model"
+import { TASK_LIMIT } from "./tasks.enums"
+import { ITask, ITaskById, ITaskList, ITaskOutput, TCreateTask } from "./tasks.interface"
+import { createTaskModel, deleteTaskModel, getAllTasksByUserIdCountModel, getAllTasksByUserIdModel, getAllTasksCountModel, getAllTasksModel, getTaskByIdModel, getTasksModel, updateTaskModel } from "./tasks.model"
 
-export const getAllTaskByUserIdSrv = async (userId: number) => {
-  const result = await getAllTasksByUserIdModel(userId)
-
-  return result
+interface IFormatPage {
+  total: number
+  items: ITaskOutput[]
+  currentPage: number
+  limit?: number
 }
 
-export const getAllTaskSrv = async () => {
-  const result = await getAllTasksModel()
+const formatPage = (payload: IFormatPage) => {
+  const pages = Math.ceil(payload.total / payload.limit || TASK_LIMIT)
 
-  return result
+  return {
+    total: payload.total,
+    items: payload.items,
+    currentPage: payload.currentPage | 1,
+    pages
+  } as Omit<IFormatPage, 'limit'> & { pages: number }
+}
+
+export const getAllTaskByUserIdSrv = async (userId: number, query: ITaskList) => {
+  const { total } = await getAllTasksByUserIdCountModel(userId, query)
+  const result = await getAllTasksByUserIdModel(userId, query, total)
+
+  return formatPage({
+    total,
+    limit: query.limit,
+    items: result,
+    currentPage: query.page
+  })
+}
+
+export const getAllTaskSrv = async (query: ITaskList) => {
+  const { total } = await getAllTasksCountModel(query)
+  const result = await getAllTasksModel(query, total)
+
+  return formatPage({
+    total,
+    limit: query.limit,
+    items: result,
+    currentPage: query.page
+  })
 }
 
 export const createTaskSrv = async (payload: TCreateTask) => {
