@@ -4,10 +4,14 @@ import { HTTP_METHODS } from "@utilities/constants";
 import { CredentialsSchema, ParamUserIdSchema, UpdateUserSchema, UserSchema } from "./user.validators";
 import { Request } from "express";
 import { IUser, TLogin } from "./user.interface";
+import AuthGuard from "@guards/authentication.guard";
 
 @SmurfAction({
   action: '/users',
   message: 'Users fetched successfully',
+  guards: [
+    AuthGuard
+  ]
 })
 export class GetUsersApi extends SmurfResponse {
 
@@ -19,7 +23,10 @@ export class GetUsersApi extends SmurfResponse {
 @SmurfAction({
   action: '/user/:id',
   message: 'User fetched successfully',
-  validation: ParamUserIdSchema
+  validation: ParamUserIdSchema,
+  guards: [
+    AuthGuard
+  ]
 })
 export class GetUserApi extends SmurfResponse {
 
@@ -34,7 +41,10 @@ export class GetUserApi extends SmurfResponse {
   action: '/user',
   message: 'User created successfully',
   method: HTTP_METHODS.POST,
-  validation: UserSchema
+  validation: UserSchema,
+  guards: [
+    AuthGuard
+  ]
 })
 export class CreateUserApi extends SmurfResponse {
 
@@ -47,9 +57,12 @@ export class CreateUserApi extends SmurfResponse {
 
 @SmurfAction({
   action: '/user/:id',
-  message: 'User created successfully',
+  message: 'User updated successfully',
   method: HTTP_METHODS.PUT,
-  validation: UpdateUserSchema
+  validation: UpdateUserSchema,
+  guards: [
+    AuthGuard
+  ]
 })
 export class UpdateUserApi extends SmurfResponse {
 
@@ -65,7 +78,10 @@ export class UpdateUserApi extends SmurfResponse {
   action: '/user/:id',
   message: 'User deleted successfully',
   method: HTTP_METHODS.DELETE,
-  validation: ParamUserIdSchema
+  validation: ParamUserIdSchema,
+  guards: [
+    AuthGuard
+  ]
 })
 export class DeleteUserApi extends SmurfResponse {
 
@@ -80,7 +96,10 @@ export class DeleteUserApi extends SmurfResponse {
   action: '/user/login',
   message: 'Login successfully',
   method: HTTP_METHODS.POST,
-  validation: CredentialsSchema
+  validation: CredentialsSchema,
+  guards: [
+    AuthGuard
+  ]
 })
 export class UserLoginApi extends SmurfResponse {
 

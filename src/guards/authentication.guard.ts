@@ -1,4 +1,4 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 import IGuard from '@error-handling/iguard.interface';
 import { StatusCodes } from 'http-status-codes';
 import GuardError from '@core/guard.error';
@@ -6,7 +6,7 @@ import { verify } from 'jsonwebtoken'
 import { getSecretKey } from "@utilities/dataHelper";
 
 const checkEncodedToken = (token: string) => {
-  const arrayToken = token.split('.')
+  const arrayToken = token?.split?.('.')
   if (arrayToken.length !== 3) {
     return false
   }
@@ -16,9 +16,9 @@ const checkEncodedToken = (token: string) => {
 }
 
 const checkToken = (authorization: string) => {
-  const token = authorization.split(' ')
-  const headerPrefix = token[0]
-  const accessToken = token[1]
+  const token = authorization?.split?.(' ')
+  const headerPrefix = token?.[0]
+  const accessToken = token?.[1]
   if (headerPrefix !== 'Bearer') {
     return false
   }
@@ -36,18 +36,23 @@ export default  (req: Request, res: Response, next: any) => {
   console.log('Implement like Policy Sample in user, difference is it will just be execute first before validation and policies');
 
   const payload: IGuard = {
-    message: 'This Route is not allowed to access',
+    message: 'Authentication required',
     errors: [],
     statusCode: StatusCodes.UNAUTHORIZED,
     name: 'Not Allowed'
   }
 
   const guardErr = new GuardError(payload);
-
   const { authorization } = req.headers
-  const verifyToken: any = checkToken(authorization)
+  const verifyToken = checkToken(authorization)
+  
   if (!verifyToken) {
     next(guardErr);
+  }
+
+  res.locals = {
+    ...res.locals,
+    user: verifyToken
   }
 
   // add the guardErr in next to execute the guard handling

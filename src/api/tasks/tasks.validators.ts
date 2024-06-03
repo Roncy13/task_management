@@ -8,6 +8,8 @@ import { ETaskStatus } from './tasks.enums';
  * In Body just tells that the schema be used in the Body section of the request.
  */
 
+const taskStatuses = Object.values(ETaskStatus)
+
 export const TasksSchema: Schema = {
   title: {
     ...inBody,
@@ -21,7 +23,8 @@ export const TasksSchema: Schema = {
       errorMessage: 'Status is required'
     },
     isIn: {
-      options: [Object.values(ETaskStatus)]
+      options: [taskStatuses],
+      errorMessage: `Task Status should be in ${taskStatuses.join(', ')}`
     }
   },
   description: {
@@ -40,16 +43,6 @@ export const BodyTaskIdSchema: Schema = {
     }
   },
 }
-
-export const QueryTaskIdSchema: Schema = {
-  id: {
-    ...inQuery,
-    notEmpty: {
-      errorMessage: 'id is required'
-    }
-  },
-}
-
 export const PathTaskIdSchema: Schema = {
   id: {
     ...inParam,
