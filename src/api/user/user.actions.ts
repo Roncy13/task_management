@@ -1,9 +1,9 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
-import { createUserSrv, deleteUserSrv, getAllUsersSrv, getUserSrv, updateUserSrv } from "./user.services";
+import { createUserSrv, deleteUserSrv, getAllUsersSrv, getUserSrv, updateUserSrv, userLoginSrv } from "./user.services";
 import { HTTP_METHODS } from "@utilities/constants";
-import { ParamUserIdSchema, UpdateUserSchema, UserSchema } from "./user.validators";
+import { CredentialsSchema, ParamUserIdSchema, UpdateUserSchema, UserSchema } from "./user.validators";
 import { Request } from "express";
-import { IUser } from "./user.interface";
+import { IUser, TLogin } from "./user.interface";
 
 @SmurfAction({
   action: '/users',
@@ -73,5 +73,20 @@ export class DeleteUserApi extends SmurfResponse {
     const id = req.params.id as unknown as number
       
     this.result = await deleteUserSrv(id)
+  }
+}
+
+@SmurfAction({
+  action: '/user/login',
+  message: 'Login successfully',
+  method: HTTP_METHODS.POST,
+  validation: CredentialsSchema
+})
+export class UserLoginApi extends SmurfResponse {
+
+  async run(req: Request) {
+    const body = req.body as unknown as TLogin
+     
+    this.result = await userLoginSrv(body)
   }
 }

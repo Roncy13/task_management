@@ -3,7 +3,7 @@
  */
 
 import { DatabaseModel } from "@models/index";
-import { IUser, TCreateUser } from "./user.interface";
+import { ICredentials, IUser, TCreateUser } from "./user.interface";
 
 export const getAllUserModel = async () => {
 	const result = await DatabaseModel.all<IUser>(`
@@ -26,7 +26,8 @@ export const getUserModel = async (id: number): Promise<IUser> => {
       email,
       password
     FROM users
-		WHERE id = $id
+		WHERE
+      id = $id
 		LIMIT 1
 	`, { id })
 
@@ -78,4 +79,23 @@ export const deleteUserModel = async (id: number) => {
 	);
 
 	return lastID
+}
+
+export const checkUserEmailPasswordModel = async (payload: ICredentials) => {
+  const result = await DatabaseModel.get<IUser | null>(`
+    SELECT
+      id,
+      name,
+      email,
+      password
+    FROM users
+    WHERE
+      email = $email AND
+      password = $password
+    LIMIT 1
+		`,
+		{ ...payload }
+	);
+
+	return result
 }

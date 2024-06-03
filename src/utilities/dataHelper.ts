@@ -1,7 +1,7 @@
-import { isEmpty } from "lodash";
+import { isEmpty } from "lodash"
+import { SECRET_KEY } from "./constants"
 
-export const NotEmpty = (data: any) => !isEmpty(data);
-export const CheckEmpty = (data: any) => isEmpty(data);
-export const GetFullName = (firstName: string, lastName: string) => {
-  return `${firstName} ${lastName}`;
+export const CheckEmpty = (data: any) => isEmpty(data)
+export const getSecretKey = () => {
+  return process.env.SECRET_KEY || SECRET_KEY
 }

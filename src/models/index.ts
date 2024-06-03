@@ -37,11 +37,11 @@ export class DatabaseModel {
     try {
       const payload = this.mapParameters(parameters)
       const result = await new Promise((resolve, reject) => {
-        db.get(qry, payload, (err, tasks = []) => {
+        db.get(qry, payload, (err, record) => {
           if (err) {
             return reject(err)
           }
-          resolve(tasks)
+          resolve(record)
         })
       })
 

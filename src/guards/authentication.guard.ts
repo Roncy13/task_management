@@ -3,14 +3,14 @@ import IGuard from '@error-handling/iguard.interface';
 import { StatusCodes } from 'http-status-codes';
 import GuardError from '@core/guard.error';
 import { verify } from 'jsonwebtoken'
+import { getSecretKey } from "@utilities/dataHelper";
 
 const checkEncodedToken = (token: string) => {
   const arrayToken = token.split('.')
   if (arrayToken.length !== 3) {
     return false
   }
-
-  const decoded = verify(token, process.env.SECRET_KEY);
+  const decoded = verify(token, getSecretKey());
 
   return decoded
 }
@@ -19,7 +19,7 @@ const checkToken = (authorization: string) => {
   const token = authorization.split(' ')
   const headerPrefix = token[0]
   const accessToken = token[1]
-  if (headerPrefix !== 'JWT') {
+  if (headerPrefix !== 'Bearer') {
     return false
   }
 

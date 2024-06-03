@@ -1,6 +1,9 @@
 import isEmpty from "lodash/isEmpty"
-import { IUser, TCreateUser } from "./user.interface"
-import { createUserModel, deleteUserModel, getAllUserModel, getUserModel, updateUserModel } from "./user.model"
+import { ICredentials, IUser, TCreateUser } from "./user.interface"
+import { checkUserEmailPasswordModel, createUserModel, deleteUserModel, getAllUserModel, getUserModel, updateUserModel } from "./user.model"
+import jwt from 'jsonwebtoken';
+import BadRequestException from '@core/badrequest.error';
+import { getSecretKey } from "@utilities/dataHelper";
 
 export const getAllUsersSrv = async () => {
   const result = await getAllUserModel()
@@ -33,4 +36,14 @@ export const getUserSrv = async(id: number) => {
   const result = await getUserModel(id)
 
   return isEmpty(result) ? null : result
+}
+
+export const userLoginSrv = async(payload: ICredentials) => {
+  const user = await checkUserEmailPasswordModel(payload)
+  if (!user) {
+    throw new BadRequestException('Incorrect email/password')
+  }
+  const result = jwt.sign({ ...user as IUser, password: undefined }, getSecretKey(), { expiresIn: '1d'});
+
+  return result
 }

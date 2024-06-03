@@ -7,11 +7,11 @@ import { Schema }  from 'express-validator';
  * In Body just tells that the schema be used in the Body section of the request.
  */
 
-export const UserSchema: Schema = {
-  name: {
+export const CredentialsSchema: Schema = {
+  password: {
     ...inBody,
     notEmpty: {
-      errorMessage: 'name is required'
+      errorMessage: 'password is required'
     },
   },
   email: {
@@ -20,12 +20,16 @@ export const UserSchema: Schema = {
       errorMessage: 'email is required'
     },
   },
-  password: {
+}
+
+export const UserSchema: Schema = {
+  ...CredentialsSchema,
+  name: {
     ...inBody,
     notEmpty: {
-      errorMessage: 'password is required'
+      errorMessage: 'name is required'
     },
-  }
+  },
 };
 
 export const ParamUserIdSchema: Schema = {
