@@ -1,5 +1,5 @@
-import { DatabaseModel } from "@models/index"
-import { ITask, ITaskById, ITaskOutput, TCreateTask, TUpdateTask } from "./tasks.interface";
+import { DatabaseModel, IStatement } from "@models/index";
+import { ITaskById, ITaskOutput, TCreateTask, TUpdateTask } from "./tasks.interface";
 
 export const getAllTasksModel = async (userId: number) => {
 	const result = await DatabaseModel.all<ITaskOutput>(`
@@ -33,7 +33,7 @@ export const getTasksModel = async (payload: ITaskById): Promise<ITaskOutput> =>
 }
 
 export const createTaskModel = async (payload: TCreateTask) => {
-	const { lastID } = await DatabaseModel.create<TCreateTask>(`
+	const { lastID } = await DatabaseModel.create<IStatement>(`
 		INSERT INTO TASKS
 			(
 				title,
@@ -49,13 +49,12 @@ export const createTaskModel = async (payload: TCreateTask) => {
 				$user_id
 			)
 	`, payload);
-	const result = await getTasksModel({ userId: payload.user_id, id: lastID })
 
-	return result;
+	return lastID;
 }
 
 export const updateTaskModel = async (payload: TUpdateTask) => {
-	const { lastID } = await DatabaseModel.update<TUpdateTask>(`
+	const { lastID } = await DatabaseModel.update<IStatement>(`
 		UPDATE TASKS
 			SET
 				title = $title,
@@ -67,9 +66,8 @@ export const updateTaskModel = async (payload: TUpdateTask) => {
 		`,
 		payload
 	);
-	const result = await getTasksModel({ userId: payload.user_id, id: lastID })
 
-	return result;
+	return lastID;
 }
 
 export const deleteTaskModel = async (payload: ITaskById) => {

@@ -1,7 +1,7 @@
 import SmurfResponse, { SmurfAction } from "@core/response";
-import { createTaskSrv, deleteTaskSrv, getAllTaskSrv, updateTaskSrv } from "./tasks.services";
+import { createTaskSrv, deleteTaskSrv, getAllTaskSrv, getTaskSrv, updateTaskSrv } from "./tasks.services";
 import { HTTP_METHODS } from "@utilities/constants";
-import { DeleteTaskSchema, TasksSchema, UpdateTaskSchema } from "./tasks.validators";
+import { DeleteTaskSchema, QueryTaskIdSchema, TasksSchema, UpdateTaskSchema } from "./tasks.validators";
 import { Request } from "express";
 import { ITaskById, TCreateTask, TUpdateTask } from "./tasks.interface";
 
@@ -59,5 +59,21 @@ export class DeleteTaskApi extends SmurfResponse {
     const payload = Object.assign({}, { ...params }) as unknown as ITaskById
     Object.assign(payload, { userId: 2 })
     this.result = await deleteTaskSrv(payload)
+  }
+}
+
+@SmurfAction({
+  action: '/task/:id',
+  message: 'Task fetched successfully',
+  method: HTTP_METHODS.GET,
+  validation: QueryTaskIdSchema
+})
+export class GetTaskApi extends SmurfResponse {
+  async run(req: Request) {
+    const { params } = req
+   
+    const payload = Object.assign({}, { ...params }) as unknown as ITaskById
+    Object.assign(payload, { userId: 2 })
+    this.result = await getTaskSrv(payload)
   }
 }

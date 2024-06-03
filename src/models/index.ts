@@ -3,8 +3,7 @@ import { db } from '@config/connection'
 interface IParameter {
   [x: string]: string | number | TCreateTask
 }
-
-interface IStatement {
+export interface IStatement {
   lastID: number
   changes: number
 }
