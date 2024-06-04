@@ -62,7 +62,6 @@ export default async function  migrations() {
     `, {
       $name: '%james 1%'
     }, (err, tasks = []) => {
-      console.log(err, tasks, ' tasks results ')
       resolve(tasks)
     })
   })

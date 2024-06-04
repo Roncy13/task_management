@@ -13,7 +13,7 @@ const formatPage = (payload: IFormatPage) => {
   return {
     total: payload.total,
     items: payload.items,
-    pages
+    pages: payload.total > 0 ? pages : 0
   } as Omit<IFormatPage, 'limit'> & { pages: number }
 }
 

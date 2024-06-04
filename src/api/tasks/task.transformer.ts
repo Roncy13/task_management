@@ -14,7 +14,7 @@ export const TaskFilterListTransformer = (req: Request) => {
   }
 
   if (query.user) {
-    Object.assign(filter, { name: query.user })
+    Object.assign(filter, { user: query.user })
   }
 
   const result = {

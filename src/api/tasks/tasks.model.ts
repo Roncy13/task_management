@@ -18,7 +18,7 @@ const queryTaskFilters = (filter: ITaskListFilter, prepend: string[] = []) => {
 	}
 
 	if (filter?.user) {
-		stmts.push(`u.name = $name`)
+		stmts.push(`u.name = $user`)
 	}
 
 	return stmts.length > 0 ? `WHERE ${stmts.join(' AND ')}` : ''
@@ -65,7 +65,7 @@ export const getAllTasksByUserIdModel = async (userId: number, query: ITaskList)
 	const pagination = queryLimit(query.page, query.limit)
 	const taskFilters = queryTaskFilters(query.filter, ['t.user_id = $userId'])
 	const sort = queryTaskSort(query.sort)
-	const result = await DatabaseModel.all<ITaskOutput>(`
+	const stmt = `
 		SELECT
 			t.id as task_id,
 			t.title as task_title,
@@ -77,10 +77,10 @@ export const getAllTasksByUserIdModel = async (userId: number, query: ITaskList)
 		INNER JOIN users as u
 			ON u.id = t.user_id
 		${taskFilters}
-		${pagination}
 		${sort}
-	`, { ...query.filter })
-
+		${pagination}
+	`
+	const result = await DatabaseModel.all<ITaskOutput>(stmt, { ...query.filter, userId })
 	return result;
 }
 
