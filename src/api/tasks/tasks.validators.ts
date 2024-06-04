@@ -94,6 +94,16 @@ export const TaskListSchema: Schema = {
       }
     },
   },
+  limit: {
+    ...inQuery,
+    optional: true,
+    isInt: {
+      errorMessage: 'Limit should be a number',
+      options: {
+        min: 0
+      }
+    },
+  },
   sort: {
     ...inQuery,
     optional: true,

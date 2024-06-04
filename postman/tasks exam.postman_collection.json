@@ -16,30 +16,88 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/tasks/all",
+							"raw": "{{baseUrl}}/tasks/all?page=1&user=james3&limit=5&title=james 33&sort=asc",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"tasks",
 								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "taskStatus",
+									"value": "In Progress",
+									"disabled": true
+								},
+								{
+									"key": "user",
+									"value": "james3"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "title",
+									"value": "james 33"
+								},
+								{
+									"key": "sort",
+									"value": "asc"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get All Task",
+					"name": "Get all Task",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/tasks",
+							"raw": "{{baseUrl}}/tasks?page=2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"tasks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "taskStatus",
+									"value": "In Progress",
+									"disabled": true
+								},
+								{
+									"key": "user",
+									"value": "james3",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "james 33",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "asc",
+									"disabled": true
+								}
 							]
 						}
 					},

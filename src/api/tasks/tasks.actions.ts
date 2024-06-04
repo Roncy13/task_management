@@ -23,6 +23,13 @@ const [TasksUserPolicy] = TaskPolicies
  *    task_user_id: number
  *    user_name: string
  * Payload:
+ * Query:
+ *    page: number
+ *    taskStatus: string
+ *    user: string
+ *    limit: number
+ *    title: string
+ *    sort: asc/desc
  * Auth:
  *  Authorization: Bearer {{Token}}
  */
@@ -55,7 +62,10 @@ export class ListAllTasksApi extends SmurfResponse {
  *  Query:
  *    page: number
  *    taskStatus: string
- *    
+ *    user: string
+ *    limit: number
+ *    title: string
+ *    sort: asc/desc
  * Auth:
  *  Authorization: Bearer {{Token}}
  */
