@@ -14,9 +14,9 @@ export default async function  migrations() {
   `);
 
   await db.exec(`
-    INSERT INTO tasks(title, description, status, user_id) values ('task james 11', 'task james 1 description', 'To Do', 1);
-    INSERT INTO tasks(title, description, status, user_id) values ('task james 22', 'task james 2 description', 'To Do', 2);
-    INSERT INTO tasks(title, description, status, user_id) values ('task james 33', 'task james 3 description', 'To Do', 3);
+    INSERT INTO tasks(title, description, status, user_id) values ('task james 11', 'task james 1 description', 'In Progress', 1);
+    INSERT INTO tasks(title, description, status, user_id) values ('task james 22', 'task james 2 description', 'In Progress', 2);
+    INSERT INTO tasks(title, description, status, user_id) values ('task james 33', 'task james 3 description', 'In Progress', 3);
   `);
 
   await db.exec(`
@@ -58,9 +58,11 @@ export default async function  migrations() {
         t.description as task_descriptio,
         t.status as task_status
       FROM tasks t
-    `, [], (err, tasks = []) => {
-      console.log(err, 'err')
-      console.log(tasks, ' tasks results ')
+      where t.title like $name
+    `, {
+      $name: '%james 1%'
+    }, (err, tasks = []) => {
+      console.log(err, tasks, ' tasks results ')
       resolve(tasks)
     })
   })

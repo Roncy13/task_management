@@ -5,42 +5,37 @@ import { createTaskModel, deleteTaskModel, getAllTasksByUserIdCountModel, getAll
 interface IFormatPage {
   total: number
   items: ITaskOutput[]
-  currentPage: number
   limit?: number
 }
 
 const formatPage = (payload: IFormatPage) => {
   const pages = Math.ceil(payload.total / payload.limit || TASK_LIMIT)
-
   return {
     total: payload.total,
     items: payload.items,
-    currentPage: payload.currentPage | 1,
     pages
   } as Omit<IFormatPage, 'limit'> & { pages: number }
 }
 
 export const getAllTaskByUserIdSrv = async (userId: number, query: ITaskList) => {
   const { total } = await getAllTasksByUserIdCountModel(userId, query)
-  const result = await getAllTasksByUserIdModel(userId, query, total)
-
+  const result = await getAllTasksByUserIdModel(userId, query)
+  
   return formatPage({
     total,
     limit: query.limit,
     items: result,
-    currentPage: query.page
   })
 }
 
 export const getAllTaskSrv = async (query: ITaskList) => {
   const { total } = await getAllTasksCountModel(query)
-  const result = await getAllTasksModel(query, total)
+  const result = await getAllTasksModel({...query})
 
   return formatPage({
     total,
     limit: query.limit,
     items: result,
-    currentPage: query.page
   })
 }
 

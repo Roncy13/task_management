@@ -8,28 +8,11 @@ import {
 } from './tasks.policy'
 import { createTaskSrv, deleteTaskSrv, getAllTaskByUserIdSrv, getAllTaskSrv, getTaskSrv, updateTaskSrv } from './tasks.services'
 import { DeleteTaskSchema, PathTaskIdSchema, TaskListSchema, TasksSchema, UpdateTaskSchema } from './tasks.validators'
+import { TaskFilterListTransformer } from './task.transformer'
 
 
 const [TasksUserPolicy] = TaskPolicies
-const getFilterQuery = ({
-  query
-}: Request) => {
-  const {
-    email,
-    status,
-    title,
-    ...params
-  } = query
 
-  return {
-    ...params,
-    filter: {
-      email,
-      status,
-      title,
-    }
-  } as ITaskList
-}
 // This is to see all task and to check filters per login to /tasks api
 
 /**
@@ -53,10 +36,9 @@ const getFilterQuery = ({
 })
 export class ListAllTasksApi extends SmurfResponse {
   async run(req: Request) {
-    const params = getFilterQuery(req)
+    const query = TaskFilterListTransformer(req)
 
-    this.result = await getAllTaskSrv(params)
-    console.log(params, ' params ')
+    this.result = await getAllTaskSrv(query)
   }
 }
 
@@ -70,6 +52,10 @@ export class ListAllTasksApi extends SmurfResponse {
  *    task_user_id: number
  *    user_name: string
  * Payload:
+ *  Query:
+ *    page: number
+ *    taskStatus: string
+ *    
  * Auth:
  *  Authorization: Bearer {{Token}}
  */
@@ -79,10 +65,13 @@ export class ListAllTasksApi extends SmurfResponse {
   guards: [
     AuthGuard
   ],
+  validation: TaskListSchema
 })
 export class ListTasksApi extends SmurfResponse {
   async run(req: Request, { locals: { user } }: ITaskResponse) {
-    this.result = await getAllTaskByUserIdSrv(user.id, req.query as ITaskList)
+    const query = TaskFilterListTransformer(req)
+
+    this.result = await getAllTaskByUserIdSrv(user.id, query)
   }
 }
 

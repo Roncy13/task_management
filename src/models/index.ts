@@ -10,7 +10,7 @@ export interface IStatement {
 export class DatabaseModel {
   static mapParameters (parameters: IParameter = {}) {
     return Object.keys(parameters).reduce((acc, val) => {
-      return {...acc, [`$${val}`]: parameters[val]}
+      return parameters?.[val] ? {...acc, [`$${val}`]: parameters[val]} : acc
     }, {})
   }
 
@@ -89,6 +89,24 @@ export class DatabaseModel {
     const payload = this.mapParameters(parameters)
     const result = await new Promise((resolve, reject) => {
       db.run(qry, payload, function (err: Error) {
+        if (err) {
+          return reject(err)
+        }
+        resolve(this)
+      })
+    })
+
+    return result
+  }
+
+  static async search() {
+    const result = await new Promise((resolve, reject) => {
+      db.run(`
+        SELECT
+          *
+        FROM tasks
+        WHERE title like '%?%'
+      `, ['james 1'], function (err: Error) {
         if (err) {
           return reject(err)
         }

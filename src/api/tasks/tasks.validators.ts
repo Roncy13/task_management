@@ -61,6 +61,28 @@ export const DeleteTaskSchema: Schema = {
   ...PathTaskIdSchema
 };
 
+export const FilterSchema: Schema = {
+  taskStatus: {
+    ...inQuery,
+    isString: true,
+    optional: true,
+    isIn: {
+      options: [taskStatuses],
+      errorMessage: `Task Status should be in ${taskStatuses.join(', ')}`
+    }
+  },
+  title: {
+    ...inQuery,
+    isString: true,
+    optional: true,
+  },
+  name: {
+    ...inQuery,
+    isString: true,
+    optional: true,
+  }
+}
+
 export const TaskListSchema: Schema = {
   page: {
     ...inQuery,
@@ -78,5 +100,6 @@ export const TaskListSchema: Schema = {
     isIn: {
       options: [Object.values(EPageSort)]
     }
-  }
+  },
+  ...FilterSchema,
 }

@@ -5,14 +5,12 @@ import { EPageSort, TASK_LIMIT } from "./tasks.enums";
 const queryTaskFilters = (filter: ITaskListFilter, prepend: string[] = []) => {
 	const stmts = []
 
-	console.log(filter, 'filasldasld')
-
 	if (prepend.length > 0) {
 		prepend.forEach(p => stmts.push(p))
 	}
 
 	if (filter?.title) {
-		stmts.push(`t.title = $title`)
+		stmts.push(`t.title LIKE $title`)
 	}
 
 	if (filter?.status) {
@@ -20,7 +18,7 @@ const queryTaskFilters = (filter: ITaskListFilter, prepend: string[] = []) => {
 	}
 
 	if (filter?.user) {
-		stmts.push(`u.email = $email`)
+		stmts.push(`u.name = $name`)
 	}
 
 	return stmts.length > 0 ? `WHERE ${stmts.join(' AND ')}` : ''
@@ -28,24 +26,43 @@ const queryTaskFilters = (filter: ITaskListFilter, prepend: string[] = []) => {
 
 const queryTaskSort = (sort: EPageSort = null) => {
 	if (sort === EPageSort.ASC) {
-		return 'SORT BY t.title ASC'
+		return 'ORDER BY t.title ASC'
 	}
 
 	if (sort === EPageSort.DESC) {
-		return 'SORT BY t.title DESC'
+		return 'ORDER BY t.title DESC'
 	}
 
 	return ''
 }
 
 const queryLimit = (page: number, limit: number = TASK_LIMIT) => {
-	const offset = (limit) * (((page | 1) - 1) - limit | 0)
+	const offset = (page - 1) * limit
+	const result = `LIMIT ${limit} OFFSET ${offset | 0}`
 
-	return `LIMIT ${limit} OFFSET ${offset}`
+	return result
 }
 
-export const getAllTasksByUserIdModel = async (userId: number, query: ITaskList, totalCount: number) => {
-	const pagination = queryLimit( query.page, query.limit)
+const getTaskListPayload = (userId: number, query: ITaskList) => {
+	const payload = {
+		userId,
+		...query.filter,
+		title: `'%james 1%'`
+	}
+
+	if (query.filter.status === undefined) {
+		delete payload.status
+	}
+
+	if (query.filter.user === undefined) {
+		delete payload.status
+	}
+
+	return payload
+}
+
+export const getAllTasksByUserIdModel = async (userId: number, query: ITaskList) => {
+	const pagination = queryLimit(query.page, query.limit)
 	const taskFilters = queryTaskFilters(query.filter, ['t.user_id = $userId'])
 	const sort = queryTaskSort(query.sort)
 	const result = await DatabaseModel.all<ITaskOutput>(`
@@ -62,7 +79,7 @@ export const getAllTasksByUserIdModel = async (userId: number, query: ITaskList,
 		${taskFilters}
 		${pagination}
 		${sort}
-	`, { userId })
+	`, { ...query.filter })
 
 	return result;
 }
@@ -76,47 +93,49 @@ export const getAllTasksByUserIdCountModel = async (userId: number, query: ITask
 		INNER JOIN users as u
 			ON u.id = t.user_id
 		${taskFilters}
-	`, { userId })
+	`, { ...query.filter, userId })
 
 	return result as ITaskCount;
 }
 
-export const getAllTasksModel = async (query: ITaskList, totalCount: number) => {
+export const getAllTasksModel = async (query: ITaskList) => {
 	const pagination = queryLimit(query.page, query.limit)
 	const sort = queryTaskSort(query.sort)
 	const taskFilters = queryTaskFilters(query.filter)
 	const findQuery = `
 		SELECT
-		t.id as task_id,
-		t.title as task_title,
-		t.description as task_description,
-		t.status as task_status,
-		t.user_id as task_user_id,
-		u.name as user_name
-	FROM tasks t
-	INNER JOIN users as u
-		ON u.id = t.user_id
-	${taskFilters}
-	${pagination}
-	${sort}
+			t.id as task_id,
+			t.title as task_title,
+			t.description as task_description,
+			t.status as task_status,
+			t.user_id as task_user_id,
+			u.name as user_name
+		FROM tasks t
+		INNER JOIN users as u
+			ON u.id = t.user_id
+		${taskFilters}
+		${sort}
+		${pagination}
 	`
-	console.log(findQuery, ' find query ')
-	const result = await DatabaseModel.all<ITaskOutput>(findQuery)
+	const result = await DatabaseModel.all<ITaskOutput>(findQuery, {
+		...query.filter
+	})
 	
 	return result;
 }
 
 export const getAllTasksCountModel = async (query: ITaskList) => {
 	const taskFilters = queryTaskFilters(query.filter)
-	const result = await DatabaseModel.get<ITaskCount>(`
+	const findQuery = `
 		SELECT
 			count(1) as total
 		FROM tasks t
 		INNER JOIN users as u
 			ON u.id = t.user_id
 		${taskFilters}
-	`)
-
+	`
+	const result = await DatabaseModel.get<ITaskCount>(findQuery, {...query.filter})
+	
 	return result as ITaskCount;
 }
 
