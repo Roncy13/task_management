@@ -5,7 +5,7 @@ import { CredentialsSchema, ParamUserIdSchema, UpdateUserSchema, UserSchema } fr
 import { Request } from "express";
 import { IUser, TLogin } from "./user.interface";
 import AuthGuard from "@guards/authentication.guard";
-import { AdminRolePolicy, CheckCreateUserEmailPolicy, CheckUpdateUserEmailPolicy, NotAllowAdminToDeleteUser } from "./user.policy";
+import { AdminRolePolicy, CheckCreateUserEmailPolicy, CheckUpdateUserEmailPolicy, NotAllowAdminToDeleteUser, CheckIfUserHasTaskRecordsPolicy } from "./user.policy";
 
 /**
  * API: users/Get All Users
@@ -185,7 +185,10 @@ export class UpdateUserApi extends SmurfResponse {
   guards: [
     AuthGuard
   ],
-  policies: [AdminRolePolicy, NotAllowAdminToDeleteUser]
+  policies: [
+    AdminRolePolicy,
+    NotAllowAdminToDeleteUser,
+    CheckIfUserHasTaskRecordsPolicy]
 })
 export class DeleteUserApi extends SmurfResponse {
 
@@ -211,9 +214,6 @@ export class DeleteUserApi extends SmurfResponse {
   message: 'Login successfully',
   method: HTTP_METHODS.POST,
   validation: CredentialsSchema,
-  guards: [
-    AuthGuard
-  ]
 })
 export class UserLoginApi extends SmurfResponse {
   async run(req: Request) {

@@ -32,20 +32,21 @@ const checkToken = (authorization: string) => {
 }
 
 export default  (req: Request, res: Response, next: any) => {
-
-  const payload: IGuard = {
-    message: 'Authentication required',
-    errors: [],
-    statusCode: StatusCodes.UNAUTHORIZED,
-    name: 'Not Allowed'
-  }
-
-  const guardErr = new GuardError(payload);
   const { authorization } = req.headers
-  const verifyToken = checkToken(authorization)
+
+  let verifyToken
+
+  try {
+    verifyToken = checkToken(authorization)
+  } catch (err) {
+    const payload: IGuard = {
+      message: err.message || 'Not Authenticated',
+      errors: [],
+      statusCode: StatusCodes.UNAUTHORIZED,
+      name: 'Not Allowed'
+    }
   
-  if (!verifyToken) {
-    next(guardErr);
+    throw new GuardError(payload);
   }
 
   res.locals = {

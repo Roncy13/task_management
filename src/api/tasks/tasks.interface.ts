@@ -41,7 +41,6 @@ export interface ITaskList {
   filter?: ITaskListFilter
   limit?: number
 }
-
 export interface ITaskCount {
   total: number
 }

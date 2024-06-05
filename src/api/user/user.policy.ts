@@ -3,6 +3,7 @@ import { IUserResponse } from "./user.interface";
 import { ERole } from "./user.constants";
 import PolicyError from "@core/policy.error";
 import { checkUserByEmailSrv, getUserSrv } from "./user.services";
+import { getTaskCountByUserIdSrv } from "../tasks/tasks.services";
 
 /**
  * Example Policy Controller for Smurf
@@ -58,6 +59,7 @@ export const NotAllowAdminToDeleteUser = async (req: Request, _response: IUserRe
 
   next()
 }
+
 export const LocalsUserPolicy = async (req: Request, res: IUserResponse, next: NextFunction) => {
   if (!res?.locals?.user) {
     throw new PolicyError({
@@ -68,6 +70,19 @@ export const LocalsUserPolicy = async (req: Request, res: IUserResponse, next: N
   req.body = {
     ...req.body,
     user_id: res.locals.user.id
+  }
+
+  next()
+}
+
+export const CheckIfUserHasTaskRecordsPolicy = async (req: Request, _res: IUserResponse, next: NextFunction) => {
+  const userId = Number(req.params.id || 0)
+  const taskRecords = await getTaskCountByUserIdSrv(userId)
+  
+  if (taskRecords.total > 0) {
+    throw new PolicyError({
+      message: 'Cannot delete user with task records'
+    })
   }
 
   next()

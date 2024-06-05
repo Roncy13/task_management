@@ -222,3 +222,14 @@ export const deleteTaskModel = async (payload: ITaskById) => {
 
 	return lastID
 }
+
+export const getTaskCountByUserIdModel = async(id: number) => {
+  const result = await DatabaseModel.get<ITaskOutput>(`
+		SELECT
+			count(1) as total
+		FROM tasks t
+		WHERE t.user_id = $id
+	`, { id })
+
+	return result as ITaskCount;
+}

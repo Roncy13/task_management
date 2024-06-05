@@ -1,6 +1,6 @@
 import { TASK_LIMIT } from "./tasks.enums"
 import { ITask, ITaskById, ITaskList, ITaskOutput, TCreateTask } from "./tasks.interface"
-import { createTaskModel, deleteTaskModel, getAllTasksByUserIdCountModel, getAllTasksByUserIdModel, getAllTasksCountModel, getAllTasksModel, getTaskByIdModel, getTasksModel, updateTaskModel } from "./tasks.model"
+import { createTaskModel, deleteTaskModel, getAllTasksByUserIdCountModel, getAllTasksByUserIdModel, getAllTasksCountModel, getAllTasksModel, getTaskByIdModel, getTaskCountByUserIdModel, getTasksModel, updateTaskModel } from "./tasks.model"
 
 interface IFormatPage {
   total: number
@@ -68,6 +68,12 @@ export const getTaskSrv = async(payload: ITaskById) => {
 
 export const getTaskByIdSrv = async(id: number) => {
   const result = await getTaskByIdModel(id)
+
+  return result
+}
+
+export const getTaskCountByUserIdSrv = async(id: number) => {
+  const result = await getTaskCountByUserIdModel(id)
 
   return result
 }
